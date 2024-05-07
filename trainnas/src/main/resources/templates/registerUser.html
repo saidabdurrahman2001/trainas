@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Form Add Pelatihan</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: navbar('Pengaturan')}"></nav>
+  <br><br><br>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <h2 class="text-center">Tambah User</h2>
+          <br>
+          <form th:action="@{/user/add}" th:object="${user}" method="POST">
+            Nama User: <br>
+            <input class="form-control" type="text" th:field="*{name}" required/>
+            </br>
+
+            Username User: <br>
+            <input class="form-control" type="text" th:field="*{username}" required/>
+            </br>
+
+            Email User: <br>
+            <input class="form-control" type="text" th:field="*{email}" required/>
+            </br>
+
+            Asal Sekolah: <br>
+            <input class="form-control" type="text" th:field="*{asalSekolah}" required/>
+            </br>
+
+            Jenis Pelatihan: <br>
+            <select th:field="*{role.id}" class="form-control gap-2">
+              <div th:each="roleExisting : ${listRole}">
+                <option th:value="${roleExisting.id}" th:text="${roleExisting.role}"></option>
+              </div>
+            </select>
+
+            Password: <br>
+            <input class="form-control" type="text" th:field="*{password}" required/>
+            </br>
+
+            <br>
+            <button class="btn btn-primary" type="submit" onclick="return confirmRegistration()">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script>
+        function confirmRegistration() {
+          return confirm("Data User sudah benar?");
+        }
+    </script>
+
+</body>
+
+</html>
+
