@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Testimoni List</title>
+</head>
+<body>
+    <h2>Testimoni List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Komentar</th>
+                <th>Tanggal</th>
+                <th>Pelatihan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterate over the testimoniList and display each testimoni -->
+            <tr th:each="testimoni : ${testimoniList}">
+                <td th:text="${testimoni.idTestimoni}"></td>
+                <td th:text="${testimoni.komentar}"></td>
+                <td th:text="${testimoni.tanggal}"></td>
+                <td th:text="${testimoni.pelatihan.namaPelatihan}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

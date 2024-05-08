@@ -1,5 +1,7 @@
 package asik.propensik.trainnas.service;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,8 @@ import asik.propensik.trainnas.model.Pendaftaran;
 import asik.propensik.trainnas.model.UserModel;
 import asik.propensik.trainnas.repository.PelatihanDb;
 import asik.propensik.trainnas.repository.PendaftaranDb;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 @Service
 public class PendaftaranService {
@@ -24,6 +28,9 @@ public class PendaftaranService {
 
     @Autowired
     PelatihanService pelatihanService;
+
+    @Autowired
+    private EntityManager entityManager;
 
     // public void daftarPelatihan(Long id, DaftarPelatihanDTO daftarDTO) {
     // Pelatihan pelatihan = pelatihanService.getPelatihanById(id);
@@ -38,6 +45,7 @@ public class PendaftaranService {
     // }
     public void daftarPelatihan(Long idPelatihan, UserModel user) {
         Pelatihan pelatihan = pelatihanService.getPelatihanById(idPelatihan);
+        pelatihan.setJumlahPendaftar(pelatihan.getJumlahPendaftar() + 1); // Menambah jumlah pendaftar pada pelatihan
         Pendaftaran pendaftaran = new Pendaftaran();
         pendaftaran.setPelatihan(pelatihan);
         pendaftaran.setUser(user);
@@ -47,6 +55,10 @@ public class PendaftaranService {
 
     public List<Long> findDistinctPelatihanId() {
         return pendaftaranDb.findDistinctPelatihanId();
+    }
+
+    public List<Pelatihan> getPelatihanByUser(UserModel user) {
+        return pendaftaranDb.findPelatihanByUser(user);
     }
 
     // public List<Pendaftaran> getPelatihanByAsalSekolah(String asalSekolah) {
@@ -136,6 +148,51 @@ public class PendaftaranService {
         String[] namaBulan = { "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
                 "Oktober", "November", "Desember" };
         return namaBulan[bulan - 1];
+    }
+
+    public List<Pelatihan> findTop3PelatihanByJumlahPendaftar() {
+        List<Long> top3PelatihanId = pendaftaranDb.findTop3PelatihanByJumlahPendaftar();
+        List<Pelatihan> top3Pelatihan = new ArrayList<>();
+        for (Long id : top3PelatihanId) {
+            Pelatihan pelatihan = pelatihanService.getPelatihanById(id);
+            top3Pelatihan.add(pelatihan);
+        }
+        return top3Pelatihan;
+    }
+
+    public List<Map<String, Object>> getJumlahPendaftaranPerBulan() {
+        // Ambil waktu saat ini
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        // Hitung waktu 3 bulan yang lalu
+        LocalDateTime threeMonthsAgo = currentTime.minusMonths(3);
+
+        // Ambil data pendaftaran dalam kurun waktu 3 bulan terakhir dari repository
+        List<Pendaftaran> pendaftarans = pendaftaranDb.findByWaktuPembuatanBetween(threeMonthsAgo, currentTime);
+
+        // Buat map untuk menyimpan jumlah pendaftaran per bulan
+        Map<String, Integer> jumlahPendaftaranPerBulan = new HashMap<>();
+
+        // Iterasi melalui data pendaftaran dan hitung jumlah pendaftaran per bulan
+        for (Pendaftaran pendaftaran : pendaftarans) {
+            String bulan = YearMonth.from(pendaftaran.getWaktuPembuatan()).toString();
+
+            jumlahPendaftaranPerBulan.put(bulan, jumlahPendaftaranPerBulan.getOrDefault(bulan, 0) + 1);
+        }
+
+        // Buat list untuk menyimpan data jumlah pendaftaran per bulan
+        List<Map<String, Object>> dataJumlahPendaftaran = new ArrayList<>();
+
+        // Iterasi melalui map dan tambahkan data jumlah pendaftaran per bulan ke list
+        for (Map.Entry<String, Integer> entry : jumlahPendaftaranPerBulan.entrySet()) {
+            Map<String, Object> bulanData = new HashMap<>();
+            bulanData.put("bulan", entry.getKey());
+            bulanData.put("jumlahPendaftaran", entry.getValue());
+
+            dataJumlahPendaftaran.add(bulanData);
+        }
+
+        return dataJumlahPendaftaran;
     }
 
 }

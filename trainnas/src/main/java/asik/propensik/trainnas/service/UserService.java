@@ -3,12 +3,14 @@ package asik.propensik.trainnas.service;
 import java.util.List;
 
 import asik.propensik.trainnas.model.PelatihanTrainee;
+import asik.propensik.trainnas.model.Testimoni;
 import asik.propensik.trainnas.model.UserModel;
 
 public interface UserService {
     public UserModel addUser(UserModel user);
     public String encrypt(String password);
     public List<PelatihanTrainee> listPelatihan();
+    public List<Testimoni> getAllTestimoniByLoggedInUser();
 }
 
 

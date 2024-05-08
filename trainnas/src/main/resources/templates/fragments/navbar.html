@@ -1,90 +1,111 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<head>
-		<meta charset="UTF-8" />
-		<!-- Tambahkan link CSS untuk styling -->
-		<link rel="stylesheet" href="style.css" />
-	</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-	<body>
-		<style>
-			/* Ganti font menjadi Poppins bold dan ukuran 20px, serta warna teks menjadi putih */
-			.font-poppins-bold {
-				font-family: "Poppins", sans-serif;
-				font-weight: bold;
-				font-size: 20px;
-			}
+<head>
+	<meta charset="UTF-8" />
+	<!-- Tambahkan link CSS untuk styling -->
+	<link rel="stylesheet" href="style.css" />
+</head>
 
-			.text-white {
-				color: white;
-			}
-		</style>
+<body>
+	<style>
+		/* Ganti font menjadi Poppins bold dan ukuran 20px, serta warna teks menjadi putih */
+		.font-poppins-bold {
+			font-family: "Poppins", sans-serif;
+			font-weight: bold;
+			font-size: 20px;
+		}
 
-		<nav th:fragment="navbar(page)" class="navbar navbar-expand-lg navbar-light fixed-top mb-3" style="background-color: #153476">
-			<div class="container-fluid">
-				<a class="navbar-brand fw-bold mb-0 ms-1 h1 text-white" href="/">TRAINAS</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
-					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
-						<li class="nav-item">
-							<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page" href="/dashboard/trainer">Dashboard</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
-								role="button" data-bs-toggle="dropdown" aria-expanded="false">Pelatihan</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a class="dropdown-item" href="/pelatihan/daftarPelatihanSaya">Daftar Pelatihan Saya (Trainee)</a>
-								</li>
-								<li><a class="dropdown-item" href="/pelatihan/viewall">Daftar Pelatihan Gernas (semua)</a></li>
-								<li><a class="dropdown-item" href="/pelatihan/viewall-trainer">Daftar Pelatihan (Trainer)</a></li>
-								<li>
-									<a class="dropdown-item" href="/pelatihan/viewall-trainer-manager">Daftar Approval Pelatihan(Manager)</a>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#" role="button"
-							  data-bs-toggle="dropdown" aria-expanded="false">Bahan Ajar</a>
-							<ul class="dropdown-menu">
-							  <li><a class="dropdown-item" href="/silabus/viewall">List Bahan Ajar</a></li>
-							  <li><a class="dropdown-item" href="/silabus/viewall-trainer">List Bahan Ajar(Trainer)</a></li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#" role="button"
-							  data-bs-toggle="dropdown" aria-expanded="false">Testimoni</a>
-							<ul class="dropdown-menu">
-							  <li><a class="dropdown-item" href="/testimoni/listTestimoni-admin">List Testimoni (Admin)</a></li>
-							  <li><a class="dropdown-item" href="/testimoni/listTestimoni">List Testimoni</a></li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#" role="button"
-							  data-bs-toggle="dropdown" aria-expanded="false">Pengaturan</a>
-							<ul class="dropdown-menu">
-							  <li><a class="dropdown-item" href="/user/add">Tambah User</a></li>
-							  <li><a class="dropdown-item" href="/users">List Users</a></li>
-							</ul>
-						</li>
-					</ul>
-					<form class="navbar-nav navbar-right me-0">
-						
-						<div sec:authorize="isAnonymous()" >
-							<a href="/login" class="btn btn-outline-success me-2 text-white">Sign In</a>
-							<a href="/trainee/add" class="btn btn-outline-secondary text-white">Sign Up</a>
-						</div>
-						<div sec:authorize="isAuthenticated()" >
-							<a class="fw-bold font-poppins-bold text-white me-2" th:text="${#authentication.principal.username}"></a>
-							<!-- <a class="fw-bold font-poppins-bold text-white me-2" th:text="${#authentication.principal}"></a> -->
-							<a href="/logout" class="btn btn-outline-danger me-2 text-white">Log Out</a>
-						</div>
-				  	</form>
-				</div>
+		.text-white {
+			color: white;
+		}
+	</style>
+
+	<nav th:fragment="navbar(page)" class="navbar navbar-expand-lg navbar-light fixed-top mb-3"
+		style="background-color: #153476">
+		<div class="container-fluid">
+			<a class="navbar-brand fw-bold mb-0 ms-1 h1 text-white" href="/">TRAINAS</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+					<li class="nav-item">
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainer')" href="/dashboard/trainer">Dashboard Trainer</a>
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainee')" href="/dashboard/trainee">Dashboard Trainee</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">Pelatihan</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item" href="/pelatihan/daftarPelatihanSaya"
+									sec:authorize="hasAuthority('trainee')">Daftar Pelatihan Saya
+									(Trainee)</a>
+							</li>
+							<li><a class="dropdown-item" href="/pelatihan/viewall">Daftar Pelatihan Gernas (semua)</a>
+							</li>
+							<li><a class="dropdown-item" href="/pelatihan/viewall-trainer"
+									sec:authorize="hasAuthority('trainer')">Daftar Pelatihan
+									(Trainer)</a></li>
+							<li>
+								<a class="dropdown-item" href="/pelatihan/viewall-trainer-manager"
+									sec:authorize="hasAuthority('trainermanager')">Daftar Approval
+									Pelatihan(Manager)</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">Bahan Ajar</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/silabus/viewall">List Bahan Ajar</a></li>
+							<li><a class="dropdown-item" href="/silabus/viewall-trainer"
+									sec:authorize="hasAuthority('trainer')">List Bahan Ajar(Trainer)</a>
+							<li><a class="dropdown-item" href="/silabus/viewall-trainer"
+									sec:authorize="hasAuthority('trainermanager')">List Bahan Ajar(Trainer)</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">Testimoni</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/testimoni/listTestimoni-admin">List Testimoni
+									(Admin)</a></li>
+							<li><a class="dropdown-item" href="/testimoni/listTestimoni">List Testimoni</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">Pengaturan</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/user/add">Tambah User</a></li>
+							<li><a class="dropdown-item" href="/users">List Users</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-nav navbar-right me-0">
+
+					<div sec:authorize="isAnonymous()">
+						<a href="/login" class="btn btn-outline-success me-2 text-white">Sign In</a>
+						<a href="/trainee/add" class="btn btn-outline-secondary text-white">Sign Up</a>
+					</div>
+					<div sec:authorize="isAuthenticated()">
+						<a class="fw-bold font-poppins-bold text-white me-2"
+							th:text="${#authentication.principal.username}"></a>
+						<!-- <a class="fw-bold font-poppins-bold text-white me-2" th:text="${#authentication.principal}"></a> -->
+						<a href="/logout" class="btn btn-outline-danger me-2 text-white">Log Out</a>
+					</div>
+				</form>
 			</div>
-		</nav>
-	</body>
+		</div>
+	</nav>
+</body>
+
 </html>

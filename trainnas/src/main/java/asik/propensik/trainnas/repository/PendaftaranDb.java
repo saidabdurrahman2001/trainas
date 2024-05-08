@@ -1,5 +1,6 @@
 package asik.propensik.trainnas.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import asik.propensik.trainnas.model.Pendaftaran;
+import asik.propensik.trainnas.model.UserModel;
+import asik.propensik.trainnas.model.Pelatihan;
 import jakarta.transaction.Transactional;
 
 @Repository
@@ -52,4 +55,15 @@ public interface PendaftaranDb extends JpaRepository<Pendaftaran, Long> {
                         "FROM Pendaftaran p " +
                         "GROUP BY MONTH(p.waktuPembuatan)")
         List<Object[]> countPendaftarPerBulan();
+
+        @Query("SELECT p.pelatihan.idPelatihan, COUNT(p) AS jumlahPendaftar " +
+                        "FROM Pendaftaran p " +
+                        "GROUP BY p.pelatihan.idPelatihan " +
+                        "ORDER BY jumlahPendaftar DESC")
+        List<Long> findTop3PelatihanByJumlahPendaftar();
+
+        List<Pendaftaran> findByWaktuPembuatanBetween(LocalDateTime startTime, LocalDateTime endTime);
+
+        @Query("SELECT p.pelatihan FROM Pendaftaran p WHERE p.user = :user")
+        List<Pelatihan> findPelatihanByUser(UserModel user);
 }

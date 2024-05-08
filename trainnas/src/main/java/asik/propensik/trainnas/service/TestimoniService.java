@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import asik.propensik.trainnas.model.Testimoni;
+import asik.propensik.trainnas.model.UserModel;
 import asik.propensik.trainnas.repository.TestimoniDb;
 
 @Service
@@ -24,6 +25,10 @@ public class TestimoniService {
     public void deleteTestimoni(Long id) {
         Testimoni testimoni = testimoniDb.findById(id).get();
         testimoniDb.delete(testimoni);
+    }
+
+    public List<Testimoni> findByUser(UserModel userModel){
+        return testimoniDb.findByUser(userModel);
     }
 
     // public List<Testimoni> searchTestimoni(String search) {

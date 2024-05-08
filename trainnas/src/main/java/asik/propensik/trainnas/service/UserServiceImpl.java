@@ -1,5 +1,6 @@
 package asik.propensik.trainnas.service;
 
+import java.security.Security;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +8,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import asik.propensik.trainnas.model.PelatihanTrainee;
+import asik.propensik.trainnas.model.Testimoni;
 import asik.propensik.trainnas.model.UserModel;
 import asik.propensik.trainnas.repository.PelatihanTraineeDb;
+import asik.propensik.trainnas.repository.TestimoniDb;
 import asik.propensik.trainnas.repository.UserDb;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDb userDb;
+
+    @Autowired TestimoniDb testimoniDb;
 
     @Autowired
     private PelatihanTraineeDb pelatihanTraineeDb;
@@ -71,6 +77,17 @@ public class UserServiceImpl implements UserService {
         return searchResults;
     }
 
+    public UserModel yangSedangLogin() {
+        return userDb.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @Override
+    public List<Testimoni> getAllTestimoniByLoggedInUser() {
+        UserModel loggedInUser = yangSedangLogin();
+        return testimoniDb.findByUser(loggedInUser);
+    }
+    
+    
     // public List<UserModel> getUserTrainer() {
     // // Daftar status yang diinginkan: 2 (approved) dan 5 (done)
     // return userDb.findByRole("Trainer");

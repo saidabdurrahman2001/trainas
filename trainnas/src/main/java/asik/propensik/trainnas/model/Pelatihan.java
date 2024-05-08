@@ -8,6 +8,8 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,6 +46,9 @@ public class Pelatihan {
     @Column(name = "tipe", nullable = false)
     private String tipe;
 
+    @Column(name = "penyelenggaraan")
+    private String penyelenggaraan;
+
     @NotNull
     @Column(name = "tempat", nullable = false)
     private String tempat;
@@ -66,6 +71,9 @@ public class Pelatihan {
     @Column(name = "status")
     private int statusApproval = 1; // 1 request, 2 approved, 3 rejected, 4 requested delete
 
+    @Column(name = "jumlahPendaftar")
+    private int jumlahPendaftar = 0;
+
     @Column(name = "komentar")
     private String komentar;
 
@@ -78,8 +86,10 @@ public class Pelatihan {
     // private List<UserModel> userRole;
 
     @OneToMany(mappedBy = "idPelatihan", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JsonIgnore
     private List<PelatihanTrainee> listPelatihanTrainee = new ArrayList<>();
 
     @OneToMany(mappedBy = "pelatihan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Testimoni> testimoni = new ArrayList<>();
 }

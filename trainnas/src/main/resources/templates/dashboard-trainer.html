@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
@@ -89,13 +90,181 @@
             chart.draw(data, options);
         }
     </script> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            drawPerbandinganPelatihan();
+            drawTopPelatihan();
+            drawJumlahPendaftaran();
+        }
+
+        function drawPerbandinganPelatihan() {
+            // Ambil jumlah pendaftaran dari model di server
+
+            // Data perbandingan dari server (misalnya dari Spring Model Attribute)
+            var gernastakaCount = [[${ jumlahGernastastaka }]]
+            var gernastatabaCount = [[${ jumlahGernastastaba }]]
+
+
+            var data = google.visualization.arrayToDataTable([
+                ['Tipe Pelatihan', 'Jumlah'],
+                ['Gernastastaka', gernastakaCount],
+                ['Gernastataba', gernastatabaCount]
+            ]);
+
+            var options = {
+                title: 'Perbandingan Pelatihan Gernastastaka vs Gernastataba yang Diikuti'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('perbandinganPelatihanChart'));
+
+            chart.draw(data, options);
+        }
+
+        // function drawTopPelatihan() {
+        //     // Data top pelatihan dari server (misalnya dari Spring Model Attribute)
+        //     // var pelatiahan1 = "[[${pelatihan1}]]";
+        //     // var pelatiahan2 = "[[${pelatihan2}]]";
+        //     // var pelatihan3 = "[[${pelatihan3}]]";
+        //     // var jumlah1 = [[${pelatihan1}]];
+        //     // var jumlah2 = [[${pelatihan2}]];
+        //     // var jumlah3 = [[${pelatihan3}]];
+
+        //     var topPelatihanData = [
+        //         ['Pelatihan', 'Jumlah Pendaftar'],
+        //         // [pelatiahan1, [[${ jumlah1 }]]], // Ganti dengan data sesuai dengan top 3 pelatihan yang paling banyak diikuti
+        //         // [pelatiahan2, [[${ jumlah2 }]]],
+        //         // [pelatihan3, [[${ jumlah2 }]]]
+        //         ['Pelatihan 1', 1],
+        //         ['Pelatihan 2', 1],
+        //         ['Pelatihan 3', 1]
+        //     ];
+
+        //     var data = google.visualization.arrayToDataTable(topPelatihanData);
+
+        //     var options = {
+        //         title: 'Top 3 Pelatihan Paling Banyak Diikuti',
+        //         bars: 'horizontal' // Menampilkan grafik batang horizontal
+        //     };
+
+        //     var chart = new google.visualization.BarChart(document.getElementById('topPelatihanChart'));
+
+        //     chart.draw(data, options);
+        // }
+
+        function drawTopPelatihan() {
+            // Data top pelatihan dari server (misalnya dari Spring Model Attribute)
+
+            var topPelatihanData = [
+                ['Pelatihan', 'Jumlah Pendaftar'],
+
+            ];
+
+            var size = parseInt("[[${maxPelatihanToShow}]]");
+            // Tambahkan setiap bulan dan jumlah pendaftaran ke dataPendaftaran
+            // berdasarkan nilai dari variabel size
+            if (size >= 1) {
+                var pelatiahan1 = "[[${pelatihan1}]]";
+                var jumlah1 = [[${ jumlah1 }]];
+                topPelatihanData.push([pelatiahan1, jumlah1]);
+            }
+            if (size >= 2) {
+                var pelatiahan2 = "[[${pelatihan2}]]";
+                var jumlah2 = [[${ jumlah2 }]];
+                topPelatihanData.push([pelatiahan2, jumlah2]);
+            }
+            if (size >= 3) {
+                var pelatihan3 = "[[${pelatihan3}]]";
+                var jumlah3 = [[${ jumlah3 }]];
+                topPelatihanData.push([pelatihan3, jumlah3]);
+            }
+
+
+
+            var data = google.visualization.arrayToDataTable(topPelatihanData);
+
+            var options = {
+                title: 'Top 3 Pelatihan Paling Banyak Diikuti',
+                bars: 'horizontal' // Menampilkan grafik batang horizontal
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('topPelatihanChart'));
+
+            chart.draw(data, options);
+        }
+
+
+
+        function drawJumlahPendaftaran() {
+            // Data jumlah pendaftaran per bulan dari server (misalnya dari Spring Model Attribute)
+            // var bulan1 = "[[${bulan1}]]";
+            var dataPendaftaran = [
+                ['Bulan', 'Jumlah Pendaftaran'],
+
+                // [bulan1, [[${ jumlah1 }]]], // Ganti dengan data jumlah pendaftaran per bulan
+
+                // Lanjutkan dengan bulan-bulan lainnya
+            ];
+
+            var size = parseInt("[[${size}]]");
+
+
+            // Tambahkan setiap bulan dan jumlah pendaftaran ke dataPendaftaran
+            // berdasarkan nilai dari variabel size
+            if (size >= 1) {
+                var bulan1 = "[[${bulan1}]]";
+                var jumlahPendaftaran1 = parseInt("[[${jumlahPendaftaran1}]]");
+                dataPendaftaran.push([bulan1, jumlahPendaftaran1]);
+            }
+            if (size >= 2) {
+                var bulan2 = "[[${bulan2}]]";
+                var jumlahPendaftaran2 = parseInt("[[${jumlahPendaftaran2}]]");
+                dataPendaftaran.push([bulan2, jumlahPendaftaran2]);
+            }
+            if (size >= 3) {
+                var bulan3 = "[[${bulan3}]]";
+                var jumlahPendaftaran3 = parseInt("[[${jumlahPendaftaran3}]]");
+                dataPendaftaran.push([bulan3, jumlahPendaftaran3]);
+            }
+
+            var data = google.visualization.arrayToDataTable(dataPendaftaran);
+
+            var options = {
+                title: 'Jumlah Orang yang Mendaftar 3 Bulan Terakhir',
+                curveType: 'none', // Menampilkan garis yang halus
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('jumlahPendaftaranChart'));
+
+            chart.draw(data, options);
+        }
+    </script>
     <style>
+        .chart-container {
+            width: 500px;
+            height: 500px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            /* Tambahkan garis tepi */
+            margin: 10px;
+            /* Tambahkan ruang antara kotak */
+            padding: 10px;
+            /* Tambahkan ruang di dalam kotak */
+            box-sizing: border-box;
+            /* Pastikan padding tidak meningkatkan lebar kotak */
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
+
         .container {
             max-width: 900px;
             margin: 20px auto;
@@ -104,33 +273,41 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #f2f2f2;
             font-weight: bold;
             color: #333;
         }
+
         tr:hover {
             background-color: #f9f9f9;
         }
+
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
+
         .pagination button {
             margin: 0 5px;
             padding: 8px 16px;
@@ -140,13 +317,16 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .pagination button:hover {
             background-color: #153476;
         }
+
         #statusSortIcon {
             margin-left: 5px;
             font-size: 12px;
         }
+
         .chart-container {
             width: 500px;
             height: 500px;
@@ -168,8 +348,10 @@
     <br><br><br>
     <div class="container">
         <h1>Training History</h1>
-        <div class="filter-condition" style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
-            <label for="showEntries" style="font-weight: bold; color: #333;"><i class="fas fa-list-alt" style="margin-right: 5px;"></i>Showing entries:</label>
+        <div class="filter-condition"
+            style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
+            <label for="showEntries" style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
+                    style="margin-right: 5px;"></i>Showing entries:</label>
             <select id="showEntries" onchange="changeEntries()">
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -178,17 +360,20 @@
         </div>
 
         <div id="filterForm" class="mb-3" style="float: right;">
-            <div class="filter-condition" style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
-                <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt" style="margin-right: 5px;"></i>Kategori Pelatihan</span>
-                <select name="sortType" id="sortType" style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
+            <div class="filter-condition"
+                style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
+                <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
+                        style="margin-right: 5px;"></i>Kategori Pelatihan</span>
+                <select name="sortType" id="sortType"
+                    style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
                     <option value="All">Semua</option>
                     <option value="Gernastastaka">Gernastastaka</option>
                     <option value="Gernastastaba">Gernastastaba</option>
                 </select>
             </div>
         </div>
-        
-        
+
+
 
         <table id="pelatihanTable">
             <thead>
@@ -203,17 +388,18 @@
             <tbody>
                 <tr th:each="pelatihan : ${pelatihanList}">
                     <td th:text="${pelatihan.namaPelatihan}"></td>
-                    <td> Jumlah Pendaftar</td>
+                    <td th:text="${pelatihan.jumlahPendaftar}"></td>
 
                     <!-- <td th:text="${pelatihan.statusApproval}"></td> -->
                     <td>
-                        <span th:text="${pelatihan.statusApproval == 2 ? 'Berjalan' : (pelatihan.statusApproval == 5 ? 'Selesai' : 'Unknown')}"></span>
+                        <span
+                            th:text="${pelatihan.statusApproval == 2 ? 'Berjalan' : (pelatihan.statusApproval == 5 ? 'Selesai' : 'Unknown')}"></span>
                     </td>
 
 
 
                     <td th:text="${pelatihan.tipe}"></td>
-                    <td> Penyelenggaraan</td>
+                    <td th:text="${pelatihan.tempat}"></td>
                 </tr>
             </tbody>
         </table>
@@ -222,6 +408,9 @@
             <button id="nextBtn" onclick="nextPage()">Berikutnya &raquo;</button>
         </div>
     </div>
+    <div id="perbandinganPelatihanChart" class="chart-container"></div>
+    <div id="jumlahPendaftaranChart" class="chart-container"></div>
+    <div id="topPelatihanChart" class="chart-container"></div>
 
 
     <!-- <div class="container">
@@ -229,7 +418,7 @@
         <div id="jumlahPendaftaranChart" class="chart-container"></div>
         <div id="topPelatihanChart" class="chart-container"></div>
     </div> -->
-    
+
 
 
 
@@ -289,7 +478,7 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             showRows();
             updatePaginationButtons();
         });
@@ -329,28 +518,28 @@
             statusSortIcon.innerHTML = (statusSortOrder === 'asc') ? '&#x25BC;' : '&#x25B2;';
         }
 
-            // Filter data berdasarkan kategori pelatihan
-            function filterByCategory() {
-                const filterType = document.getElementById('sortType').value;
+        // Filter data berdasarkan kategori pelatihan
+        function filterByCategory() {
+            const filterType = document.getElementById('sortType').value;
 
-                rows.forEach(row => {
-                    const categoryCell = row.getElementsByTagName('td')[3]; // Indeks kolom "Tipe Pelatihan"
-                    const category = categoryCell.textContent;
+            rows.forEach(row => {
+                const categoryCell = row.getElementsByTagName('td')[3]; // Indeks kolom "Tipe Pelatihan"
+                const category = categoryCell.textContent;
 
-                    if (filterType === 'All' || filterType === category) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            }
-
-            // Panggil fungsi filterByCategory saat nilai dropdown berubah
-            document.getElementById('sortType').addEventListener('change', () => {
-                filterByCategory();
+                if (filterType === 'All' || filterType === category) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
+        }
+
+        // Panggil fungsi filterByCategory saat nilai dropdown berubah
+        document.getElementById('sortType').addEventListener('change', () => {
+            filterByCategory();
+        });
     </script>
 
 </body>
-</html>
 
+</html>

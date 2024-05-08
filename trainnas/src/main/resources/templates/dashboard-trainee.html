@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Dashboard Trainee</title>
+    <style>
+        /* Styling untuk card */
+        .card {
+            margin-top: 50px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .card h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .card img {
+            max-width: 100px;
+            margin-right: 20px;
+            /* border-radius: 50%; */
+        }
+
+        /* Container untuk baris kedua */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            margin-bottom: 5px;
+        }
+
+        /* Container untuk container testimoni */
+        .testimoni {
+            width: 65%;
+        }
+
+        /* Container untuk container user */
+        .user {
+            width: 30%;
+        }
+
+        /* Style untuk konten dalam card testimoni */
+        .testimoni-card {
+            float: left;
+            width: 25%;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Remove extra left and right margins, due to padding */
+        .testimoni-container {
+            margin: 0 -5px;
+        }
+
+        /* Clear floats after the columns */
+        .testimoni-container:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive columns */
+        @media screen and (max-width: 600px) {
+            .testimoni-card {
+                width: 100%;
+                display: block;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Style the counter cards */
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            text-align: center;
+            background-color: #f1f1f1;
+        }
+
+        /* Grid layout for pelatihan cards */
+        .pelatihan-container {
+            display: flex;
+            overflow-x: auto;
+            width: 100%;
+            /* Atur lebar sesuai kebutuhan */
+            margin-bottom: 20px;
+        }
+
+        .square-image {
+            width: 100px;
+            /* Sesuaikan lebar gambar sesuai kebutuhan */
+            height: 100px;
+            /* Mengatur tinggi gambar agar sama dengan lebarnya */
+            object-fit: cover;
+            /* Memastikan gambar terisi penuh di kotak tanpa distorsi */
+        }
+
+        .wide-image {
+            object-fit: cover;
+        }
+
+
+        .pelatihan-card {
+            flex: 0 0 auto;
+            /* Objek pelatihan tidak akan diperbesar */
+            width: 250px;
+            /* Atur lebar sesuai kebutuhan */
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar('user')}"></nav>
+
+    <!-- Baris pertama -->
+    <div class="clearfix row">
+        <!-- Container pelatihan yang diikuti -->
+        <div class="card">
+            <h1 class="card-title">Pelatihan yang Diikuti Oleh Trainee</h1>
+            <div class="pelatihan-container">
+                <!-- Isi pelatihan di sini -->
+                <div th:each="pelatihan : ${listPelatihan}" class="pelatihan-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="/images/pelatihan.png" alt="Pelatihan" class="wide-image" width="100">
+                            <div>
+                                <h5 class="pelatihan-title card-title" th:text="${pelatihan.namaPelatihan}"></h5>
+                                <p class="card-text" th:text="${pelatihan.tipe}"></p>
+                                <!-- <p class="card-text">
+                                    <span th:if="${pelatihan.status == 2}">Berjalan</span>
+                                    <span th:if="${pelatihan.status != 2}">Selesai</span>
+                                </p> -->
+                                <!-- Menggunakan Thymeleaf untuk memformat tanggal -->
+                                <!-- <p class="card-text" th:text="${pelatihan.tanggal}"></p>
+                                 -->
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Baris kedua -->
+    <div class="clearfix row">
+        <!-- Container testimoni -->
+        <div class="card testimoni">
+            <h1>Testimoni Tes</h1>
+            <div class="testimoni-container">
+                <!-- Isi testimoni di sini -->
+                <div th:each="testimoni : ${listTestimoni}" class="testimoni-card">
+                    <div class="card">
+                        <div class="card-body testimoni-content">
+                            <!-- Gambar atau logo jika diperlukan -->
+                            <h5 class="card-title" th:text="${testimoni.komentar}"></h5>
+                            <p class="card-text"><small class="text-muted"
+                                    th:text="${#dates.format(testimoni.tanggal, 'dd-MM-yyyy')}"></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container user -->
+        <div class="card user">
+            <h1><img src="path_to_your_image" alt="Image" /> User</h1>
+            <div class="row">
+                <div class="col text-center">
+                    <h2>5</h2>
+                    <p>Aktivitas</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <h2>8</h2>
+                    <p>Sertifikat</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <h2>12</h2>
+                    <p>Testimoni Diberikan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Masukkan script JavaScript di sini jika diperlukan -->
+</body>
+
+</html>

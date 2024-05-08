@@ -135,8 +135,10 @@ public class PelatihanController {
         System.out.println(id + "/n ini daftar DTO");
         // System.out.println(daftarDTO.getNamaLengkap() + "/n ini nama lengkap");
 
-        String email = "admin2@gmail.com";
-        UserModel user = userService.getUserByEmail(email);
+        // String email = "admin2@gmail.com";
+        // UserModel user = userService.getUserByEmail(email);
+
+        UserModel user = userService.yangSedangLogin();
 
         pendaftaranService.daftarPelatihan(id, user);
         return "trainee/succes-mendaftar-pelatihan";
@@ -160,7 +162,8 @@ public class PelatihanController {
     @GetMapping("/pelatihan/searchDaftarSaya")
     public String searchPelatihanDaftarSaya(@RequestParam("searchQuery") String searchQuery, Model model) {
         List<Pendaftaran> listPendaftaran;
-        String email = "said.abdurrahman@ui.ac.id";
+        UserModel user = userService.yangSedangLogin();
+        String email = user.getEmail();
         if (searchQuery != null && !searchQuery.isEmpty()) {
             listPendaftaran = pendaftaranService.searchPelatihanByEmailAndNama(email, searchQuery);
         } else {
@@ -198,7 +201,8 @@ public class PelatihanController {
 
     @GetMapping("/pelatihan/daftarPelatihanSaya")
     public String daftarPelatihanSaya(Model model) {
-        String email = "said.abdurrahman@ui.ac.id";
+        UserModel user = userService.yangSedangLogin();
+        String email = user.getEmail();
         List<Pendaftaran> listPendaftaran = pendaftaranService.getPelatihanByEmail(email);
         model.addAttribute("listPendaftaran", listPendaftaran);
         return "trainee/daftarPelatihanSaya";
@@ -419,7 +423,8 @@ public class PelatihanController {
     @GetMapping("/pelatihan/filterDaftarPelatihanSaya")
     public String filterDaftarPelatihanSaya(@RequestParam("sortType") String sortType, Model model) {
         System.out.println("masuk filter");
-        String email = "said.abdurrahman@ui.ac.id";
+        UserModel user = userService.yangSedangLogin();
+        String email = user.getEmail();
         if ("All".equals(sortType)) {
             var listPendaftaran = pendaftaranService.getPelatihanByEmail(email);
             model.addAttribute("listPendaftaran", listPendaftaran);

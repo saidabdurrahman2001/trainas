@@ -26,13 +26,14 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/dashboard-trainer")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/trainee/add")).permitAll()
                         // .requestMatchers(new
                         // AntPathRequestMatcher("/user/add")).hasAnyAuthority("admin")
                         // .requestMatchers(new AntPathRequestMatcher("/**")).hasAnyAuthority("admin")
-                        .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall"))
-                        .hasAnyAuthority("trainee", "admin")
+                        // .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall"))
+                        // .hasAnyAuthority("trainee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/daftar"))
                         .hasAnyAuthority("trainee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/searchTrainee"))
@@ -61,18 +62,6 @@ public class WebSecurityConfig {
                         .hasAnyAuthority("trainee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/testimoni/add"))
                         .hasAnyAuthority("trainee", "admin")
-                        // .requestMatchers(new
-                        // AntPathRequestMatcher("/pelatihan/viewall")).hasAnyAuthority("community")
-                        // .requestMatchers(new
-                        // AntPathRequestMatcher("/pelatihan/daftar")).hasAnyAuthority("community")
-                        // .requestMatchers(new
-                        // AntPathRequestMatcher("/pelatihan/searchTrainee")).hasAnyAuthority("community")
-                        // .requestMatchers(new
-                        // AntPathRequestMatcher("/pelatihan/cancel{id}")).hasAnyAuthority("community")
-                        // .requestMatchers(new
-                        // AntPathRequestMatcher("/pelatihan/detail")).hasAnyAuthority("community")
-                        // .requestMatchers(new
-                        // AntPathRequestMatcher("/pelatihan/viewall")).hasAnyAuthority("community")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/add"))
                         .hasAnyAuthority("trainer", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall-trainer"))
@@ -86,7 +75,7 @@ public class WebSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/delete"))
                         .hasAnyAuthority("trainer", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/takaTrainer"))
-                        .hasAnyAuthority("trainer", "admin")
+                        .hasAnyAuthority("trainer", "admin", "trainermanager")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/tabaTrainer"))
                         .hasAnyAuthority("trainer", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/filterPelatihantrainer"))
