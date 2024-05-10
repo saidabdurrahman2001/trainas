@@ -1,6 +1,7 @@
 package asik.propensik.trainnas.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,7 @@ public class Pelatihan {
     private String tempat;
 
     @NotNull
-    @Column(name = "deskripsi", nullable = false)
+    @Column(columnDefinition = "TEXT", name = "deskripsi", nullable = false)
     private String deskripsi;
 
     @NotNull
@@ -64,6 +65,18 @@ public class Pelatihan {
     @NotNull
     @Column(name = "tanggal_pelatihan", nullable = false)
     private Date tanggal;
+
+    @NotNull
+    @Column(name = "tanggal_akhir_pelatihan", nullable = false)
+    private Date tanggalAkhir;
+
+    @NotNull
+    @Column(name = "batas_registrasi", nullable = false)
+    private Date batasRegistrasi;
+
+    @NotNull
+    @Column(name = "waktu_mulai", nullable = false)
+    private LocalTime waktuMulai;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = Boolean.FALSE;

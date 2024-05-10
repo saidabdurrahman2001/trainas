@@ -1,5 +1,7 @@
 package asik.propensik.trainnas.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +33,8 @@ import asik.propensik.trainnas.service.UserServiceImpl;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.text.ParseException;
+
 @Controller
 public class PelatihanController {
     @Autowired
@@ -57,17 +61,70 @@ public class PelatihanController {
 
     @GetMapping("/pelatihan/add")
     public String formAddPelatihan(Model model) {
-        var pelatihanDTO = new CreatePelatihanRequestDTO();
-        model.addAttribute("pelatihanDTO", pelatihanDTO);
-        return "trainer/form-create-pelatihan";
+        return "trainer/form-create-pelatihan-rev";
     }
 
     @PostMapping("/pelatihan/add")
-    public String formAddPelatihan(@ModelAttribute CreatePelatihanRequestDTO pelatihanDTO, Model model) {
-        var pelatihan = pelatihanMapper.createPelatihanRequestDTOToPelatihan(pelatihanDTO);
+    public String formAddPelatihan(
+            @RequestParam("namaPelatihan") String namaPelatihan,
+            @RequestParam("tanggalMulai") String tanggalMulai,
+            @RequestParam("deskripsi") String deskripsi,
+            @RequestParam("tanggalAkhir") String tanggalAkhir,
+            @RequestParam("tipe") String tipe,
+            @RequestParam("waktuMulai") String waktuMulai,
+            @RequestParam("penyelenggaraan") String penyelenggaraan,
+            @RequestParam("locationInput") String locationInput,
+            @RequestParam("narahubung") String narahubung,
+            @RequestParam("batasRegistrasi") String batasRegistrasi,
+            Model model) {
+
+        // Buat objek Pelatihan
+        Pelatihan pelatihan = new Pelatihan();
+
+        // Set nilai-niilai dari form ke objek Pelatihan
+        pelatihan.setNamaPelatihan(namaPelatihan);
+        pelatihan.setDeskripsi(deskripsi);
+        pelatihan.setTipe(tipe);
+        pelatihan.setPenyelenggaraan(penyelenggaraan);
+        pelatihan.setTempat(locationInput);
+        pelatihan.setNarahubung(narahubung);
+        // Parsing tanggalMulai dan tanggalAkhir menjadi objek Date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date tanggalMulaiDate = sdf.parse(tanggalMulai);
+            pelatihan.setTanggal(tanggalMulaiDate);
+
+            Date tanggalAkhirDate = sdf.parse(tanggalAkhir);
+            pelatihan.setTanggalAkhir(tanggalAkhirDate);
+
+            Date batasRegistrasiDate = sdf.parse(batasRegistrasi);
+            pelatihan.setBatasRegistrasi(batasRegistrasiDate);
+
+            LocalTime waktuMulaiTime = LocalTime.parse(waktuMulai);
+            pelatihan.setWaktuMulai(waktuMulaiTime);
+            // Set tanggalAkhir sesuai kebutuhan aplikasi Anda
+            // Contoh: jika tanggalAkhir adalah tanggal selesai pelatihan, Anda bisa
+            // mengaturnya di sini
+            // pelatihan.setTanggalAkhir(tanggalAkhirDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         pelatihanService.addPelatihan(pelatihan);
+
+        // Kemudian, Anda dapat mengembalikan halaman yang sesuai
         return "trainer/succes-create-pelatihan";
     }
+
+    // @PostMapping("/pelatihan/add")
+    // public String formAddPelatihan(@ModelAttribute CreatePelatihanRequestDTO
+    // pelatihanDTO, Model model) {
+    // System.out.println("masuk post pelatihan add");
+    // var pelatihan =
+    // pelatihanMapper.createPelatihanRequestDTOToPelatihan(pelatihanDTO);
+    // pelatihanService.addPelatihan(pelatihan);
+    // return "trainer/succes-create-pelatihan";
+    // }
 
     @GetMapping("pelatihan/viewall")
     public String listLatihan(Model model) {
@@ -263,52 +320,100 @@ public class PelatihanController {
     public String formUpdatePelatihan(Model model, @RequestParam("id") Long idPelatihan) {
         var pelatihan = pelatihanService.getPelatihanById(idPelatihan);
         System.out.println("ini adalah pelatihan" + pelatihan.getNamaPelatihan());
-        var pelatihanDTO = new CreatePelatihanRequestDTO();
         model.addAttribute("pelatihan", pelatihan);
-        model.addAttribute("pelatihanDTO", pelatihanDTO);
-        return "trainer/form-update-pelatihan";
+        return "trainer/form-update-pelatihan-rev";
+    }
+
+    @PostMapping("/pelatihan/update")
+    public String updatePelatihan(Model model, @RequestParam("id") Long id,
+            @RequestParam("namaPelatihan") String namaPelatihan,
+            @RequestParam("tanggalMulai") String tanggalMulai,
+            @RequestParam("deskripsi") String deskripsi,
+            @RequestParam("tanggalAkhir") String tanggalAkhir,
+            @RequestParam("batasRegistrasi") String batasRegistrasi,
+            @RequestParam("tipe") String tipe,
+            @RequestParam("waktuMulai") String waktuMulai,
+            @RequestParam("penyelenggaraan") String penyelenggaraan,
+            @RequestParam("locationInput") String locationInput,
+            @RequestParam("narahubung") String narahubung) {
+
+        // Dapatkan pelatihan yang ingin diperbarui dari database
+        Pelatihan pelatihanToUpdate = pelatihanService.getPelatihanById(id);
+
+        // Perbarui nilai atribut pelatihan
+        pelatihanToUpdate.setNamaPelatihan(namaPelatihan);
+        pelatihanToUpdate.setDeskripsi(deskripsi);
+        pelatihanToUpdate.setTipe(tipe);
+        pelatihanToUpdate.setPenyelenggaraan(penyelenggaraan);
+        pelatihanToUpdate.setTempat(locationInput);
+        pelatihanToUpdate.setNarahubung(narahubung);
+
+        // Parsing tanggalMulai dan tanggalAkhir menjadi objek Date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date tanggalMulaiDate = sdf.parse(tanggalMulai);
+            pelatihanToUpdate.setTanggal(tanggalMulaiDate);
+
+            Date tanggalAkhirDate = sdf.parse(tanggalAkhir);
+            pelatihanToUpdate.setTanggalAkhir(tanggalAkhirDate);
+
+            Date batasRegistrasiDate = sdf.parse(batasRegistrasi);
+            pelatihanToUpdate.setBatasRegistrasi(batasRegistrasiDate);
+
+            LocalTime waktuMulaiTime = LocalTime.parse(waktuMulai);
+            pelatihanToUpdate.setWaktuMulai(waktuMulaiTime);
+            // Set tanggalAkhir sesuai kebutuhan aplikasi Anda
+            // Contoh: jika tanggalAkhir adalah tanggal selesai pelatihan, Anda bisa
+            // mengaturnya di sini
+            // pelatihanToUpdate.setTanggalAkhir(tanggalAkhirDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Anda dapat menambahkan validasi atau logika lainnya di sini
+
+        // Simpan perubahan ke dalam database
+        pelatihanService.addPelatihan(pelatihanToUpdate);
+
+        // Redirect ke halaman yang sesuai, misalnya halaman detail pelatihan
+        return "redirect:/pelatihan/detail?id=" + id;
     }
 
     // @PostMapping("/pelatihan/update")
-    // public String updatePelatihan(@ModelAttribute UpdatePelatihanRequestDTO
-    // pelatihanDTO,
-    // @RequestParam("id") Long idPelatihan, Model model) {
+    // public String updatePelatihan(Model model, @RequestParam("id") Long
+    // idPelatihan,
+    // @RequestParam("namaPelatihan") String namaPelatihan,
+    // @RequestParam("tipe") String tipe,
+    // @RequestParam("tempat") String tempat,
+    // @RequestParam("deskripsi") String deskripsi,
+    // @RequestParam("narahubung") String narahubung,
+    // @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("tanggal") Date
+    // tanggal) {
+
+    // var pelatihanDTO = new UpdatePelatihanRequestDTO();
+    // pelatihanDTO.setIdPelatihan(idPelatihan);
+    // pelatihanDTO.setNamaPelatihan(namaPelatihan);
+    // pelatihanDTO.setTipe(tipe);
+    // pelatihanDTO.setTempat(tempat);
+    // pelatihanDTO.setDeskripsi(deskripsi);
+    // pelatihanDTO.setNarahubung(narahubung);
+    // pelatihanDTO.setTanggal(new java.sql.Date(tanggal.getTime()));
+
+    // System.out.println(pelatihanDTO.getIdPelatihan() + "ini adalah id
+    // pelatihan");
+
     // var pelatihanFromDto =
     // pelatihanMapper.updatePelatihanRequestDTOToPelatihan(pelatihanDTO);
+    // System.out.println(pelatihanFromDto.getNamaPelatihan() + "ini adalah nama
+    // pelatihan");
+    // System.out.println(pelatihanFromDto.getIdPelatihan() + "ini adalah
+    // idpelatihan");
+
     // var pelatihan = pelatihanService.updatePelatihan(pelatihanFromDto);
     // model.addAttribute("pelatihan", pelatihan);
+
     // return "redirect:/pelatihan/viewall-trainer";
     // }
-
-    @PostMapping("/pelatihan/update")
-    public String updatePelatihan(Model model, @RequestParam("id") Long idPelatihan,
-            @RequestParam("namaPelatihan") String namaPelatihan,
-            @RequestParam("tipe") String tipe,
-            @RequestParam("tempat") String tempat,
-            @RequestParam("deskripsi") String deskripsi,
-            @RequestParam("narahubung") String narahubung,
-            @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("tanggal") Date tanggal) {
-
-        var pelatihanDTO = new UpdatePelatihanRequestDTO();
-        pelatihanDTO.setIdPelatihan(idPelatihan);
-        pelatihanDTO.setNamaPelatihan(namaPelatihan);
-        pelatihanDTO.setTipe(tipe);
-        pelatihanDTO.setTempat(tempat);
-        pelatihanDTO.setDeskripsi(deskripsi);
-        pelatihanDTO.setNarahubung(narahubung);
-        pelatihanDTO.setTanggal(new java.sql.Date(tanggal.getTime()));
-
-        System.out.println(pelatihanDTO.getIdPelatihan() + "ini adalah id pelatihan");
-
-        var pelatihanFromDto = pelatihanMapper.updatePelatihanRequestDTOToPelatihan(pelatihanDTO);
-        System.out.println(pelatihanFromDto.getNamaPelatihan() + "ini adalah nama pelatihan");
-        System.out.println(pelatihanFromDto.getIdPelatihan() + "ini adalah idpelatihan");
-
-        var pelatihan = pelatihanService.updatePelatihan(pelatihanFromDto);
-        model.addAttribute("pelatihan", pelatihan);
-
-        return "redirect:/pelatihan/viewall-trainer";
-    }
 
     @GetMapping("/pelatihan/delete")
     public String deletePelatihan(@RequestParam("id") Long idPelatihan) {

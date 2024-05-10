@@ -35,20 +35,38 @@
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
 					<li class="nav-item">
 						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
-							sec:authorize="hasAuthority('trainer')" href="/dashboard/trainer">Dashboard Trainer</a>
-						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
-							sec:authorize="hasAuthority('trainee')" href="/dashboard/trainee">Dashboard Trainee</a>
+							sec:authorize="hasAuthority('admin')" href="/dashboard/trainee">Dashboard Trainee</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('admin')" href="/dashboard/trainer">Dashboard Trainer</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainer') or hasAuthority('trainermanager')"
+							href="/dashboard/trainer">Dashboard</a>
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainee')" href="/dashboard/trainee">Dashboard</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainer')" href="/pelatihan/viewall-trainer">Pelatihan</a>
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainee')" href="/pelatihan/viewall">Pelatihan</a>
+
+					</li>
+
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">Pelatihan</a>
+							role="button" data-bs-toggle="dropdown" aria-expanded="false"
+							sec:authorize="hasAuthority('trainermanager')">Pelatihan</a>
 						<ul class="dropdown-menu">
 							<li>
 								<a class="dropdown-item" href="/pelatihan/daftarPelatihanSaya"
-									sec:authorize="hasAuthority('trainee')">Daftar Pelatihan Saya
-									(Trainee)</a>
+									sec:authorize="hasAuthority('trainee')">Daftar Pelatihan Saya</a>
 							</li>
-							<li><a class="dropdown-item" href="/pelatihan/viewall">Daftar Pelatihan Gernas (semua)</a>
+							<li><a class="dropdown-item" href="/pelatihan/viewall"
+									sec:authorize="!hasAuthority('trainer')">Daftar Pelatihan Gernas</a>
 							</li>
 							<li><a class="dropdown-item" href="/pelatihan/viewall-trainer"
 									sec:authorize="hasAuthority('trainer')">Daftar Pelatihan
@@ -56,11 +74,21 @@
 							<li>
 								<a class="dropdown-item" href="/pelatihan/viewall-trainer-manager"
 									sec:authorize="hasAuthority('trainermanager')">Daftar Approval
-									Pelatihan(Manager)</a>
+									Pelatihan</a>
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown">
+
+					<li class="nav-item">
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainer')" href="/silabus/viewall-trainer">Daftar Bahan
+							Ajar</a>
+						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
+							sec:authorize="hasAuthority('trainee') or hasAuthority('trainermanager')"
+							href="/silabus/viewall">Daftar Bahan Ajar</a>
+
+					</li>
+					<!-- <li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">Bahan Ajar</a>
 						<ul class="dropdown-menu">
@@ -71,12 +99,14 @@
 									sec:authorize="hasAuthority('trainermanager')">List Bahan Ajar(Trainer)</a>
 							</li>
 						</ul>
-					</li>
+					</li> -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">Testimoni</a>
+							role="button" data-bs-toggle="dropdown" aria-expanded="false"
+							sec:authorize="hasAuthority('admin') or hasAuthority('trainer')">Testimoni</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/testimoni/listTestimoni-admin">List Testimoni
+							<li><a class="dropdown-item" href="/testimoni/listTestimoni-admin"
+									sec:authorize="hasAuthority('admin')">List Testimoni
 									(Admin)</a></li>
 							<li><a class="dropdown-item" href="/testimoni/listTestimoni">List Testimoni</a></li>
 						</ul>
@@ -85,8 +115,10 @@
 						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">Pengaturan</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/user/add">Tambah User</a></li>
-							<li><a class="dropdown-item" href="/users">List Users</a></li>
+							<li><a class="dropdown-item" href="/user/add" sec:authorize="hasAuthority('admin')">Tambah
+									User</a></li>
+							<li><a class="dropdown-item" href="/users" sec:authorize="hasAuthority('admin')">List
+									Users</a></li>
 						</ul>
 					</li>
 				</ul>
