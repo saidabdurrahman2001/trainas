@@ -327,18 +327,8 @@
             font-size: 12px;
         }
 
-        .chart-container {
-            width: 500px;
-            height: 500px;
-            display: inline-block;
-            border: 1px solid #ccc;
-            /* Tambahkan garis tepi */
-            margin: 10px;
-            /* Tambahkan ruang antara kotak */
-            padding: 10px;
-            /* Tambahkan ruang di dalam kotak */
-            box-sizing: border-box;
-            /* Pastikan padding tidak meningkatkan lebar kotak */
+        .container-fluid{
+            width: 80%;
         }
     </style>
 </head>
@@ -346,198 +336,56 @@
 <body>
     <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
     <br><br><br>
-    <div class="container">
-        <h1>Training History</h1>
-        <div class="filter-condition"
-            style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
-            <label for="showEntries" style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
-                    style="margin-right: 5px;"></i>Showing entries:</label>
-            <select id="showEntries" onchange="changeEntries()">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-            </select>
+    
+    <div id="perbandinganPelatihanChart" class="chart-container"></div>
+    <div id="jumlahPendaftaranChart" class="chart-container"></div>
+    <div id="topPelatihanChart" class="chart-container"></div>
+
+    <div class="container-fluid">
+        <div class="text-center pt-5">
+            <h2>Training History</h2>
         </div>
-
-        <div id="filterForm" class="mb-3" style="float: right;">
-            <div class="filter-condition"
-                style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
-                <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
-                        style="margin-right: 5px;"></i>Kategori Pelatihan</span>
-                <select name="sortType" id="sortType"
-                    style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
-                    <option value="All">Semua</option>
-                    <option value="Gernastastaka">Gernastastaka</option>
-                    <option value="Gernastastaba">Gernastastaba</option>
-                </select>
-            </div>
-        </div>
-
-
-
-        <table id="pelatihanTable">
+        
+        <table class="table table-striped mt-4" id="tablePelatihan">
             <thead>
                 <tr>
                     <th>Nama Pelatihan</th>
                     <th>Jumlah Pendaftar</th>
-                    <th id="statusHeader">Status Pelatihan <span id="statusSortIcon">&#x25BC;</span></th>
+                    <th>Status Pelatihan</th>
                     <th>Tipe Pelatihan</th>
                     <th>Penyelenggaraan</th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr th:each="pelatihan : ${pelatihanList}">
                     <td th:text="${pelatihan.namaPelatihan}"></td>
                     <td th:text="${pelatihan.jumlahPendaftar}"></td>
-
-                    <!-- <td th:text="${pelatihan.statusApproval}"></td> -->
+                    <!-- <td> Jumlah Pendaftar</td> -->
                     <td>
-                        <span
-                            th:text="${pelatihan.statusApproval == 2 ? 'Berjalan' : (pelatihan.statusApproval == 5 ? 'Selesai' : 'Unknown')}"></span>
+                        <span class="badge status-badge" th:switch="${pelatihan.statusApproval}">
+                            <span th:case="1" class="badge bg-warning">Requested</span>
+                            <span th:case="2" class="badge bg-primary">Berjalan</span>
+                            <span th:case="3" class="badge bg-danger">Rejected</span>
+                            <span th:case="4" class="badge bg-primary">Delete Requested</span>
+                            <span th:case="5" class="badge bg-success">Selesai</span>
+                            <span th:case="*" th:text="${pelatihan.statusApproval}"></span>
+                        </span>
                     </td>
-
-
-
                     <td th:text="${pelatihan.tipe}"></td>
                     <td th:text="${pelatihan.tempat}"></td>
                 </tr>
             </tbody>
         </table>
-        <div class="pagination">
-            <button id="prevBtn" onclick="prevPage()" disabled>&laquo; Sebelumnya</button>
-            <button id="nextBtn" onclick="nextPage()">Berikutnya &raquo;</button>
-        </div>
     </div>
-    <div id="perbandinganPelatihanChart" class="chart-container"></div>
-    <div id="jumlahPendaftaranChart" class="chart-container"></div>
-    <div id="topPelatihanChart" class="chart-container"></div>
-
-
-    <!-- <div class="container">
-        <div id="perbandinganPelatihanChart" class="chart-container"></div>
-        <div id="jumlahPendaftaranChart" class="chart-container"></div>
-        <div id="topPelatihanChart" class="chart-container"></div>
-    </div> -->
-
-
-
 
     <script>
-        const table = document.getElementById("pelatihanTable").getElementsByTagName("tbody")[0];
-        const rows = Array.from(table.getElementsByTagName("tr"));
-        const entriesSelect = document.getElementById("showEntries");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-
-        let currentPage = 1;
-        let rowsPerPage = parseInt(entriesSelect.value);
-        let totalPages = Math.ceil(rows.length / rowsPerPage);
-
-        function showRows() {
-            let startIndex = (currentPage - 1) * rowsPerPage;
-            let endIndex = startIndex + rowsPerPage;
-            rows.forEach((row, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        }
-
-        function changeEntries() {
-            rowsPerPage = parseInt(entriesSelect.value);
-            totalPages = Math.ceil(rows.length / rowsPerPage);
-            currentPage = 1;
-            showRows();
-            updatePaginationButtons();
-        }
-
-        function nextPage() {
-            currentPage++;
-            showRows();
-            updatePaginationButtons();
-        }
-
-        function prevPage() {
-            currentPage--;
-            showRows();
-            updatePaginationButtons();
-        }
-
-        function updatePaginationButtons() {
-            if (currentPage === 1) {
-                prevBtn.disabled = true;
-            } else {
-                prevBtn.disabled = false;
-            }
-            if (currentPage === totalPages) {
-                nextBtn.disabled = true;
-            } else {
-                nextBtn.disabled = false;
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            showRows();
-            updatePaginationButtons();
+        $(document).ready(function () {
+        $('#tablePelatihan').DataTable({
+            "lengthMenu": [5, 10, 20]
         });
+    });
 
-
-        let statusSortOrder = 'asc'; // Urutan awal: ascending
-
-        document.getElementById('statusHeader').addEventListener('click', () => {
-            sortTableByStatus();
-        });
-
-        function sortTableByStatus() {
-            const rowsArray = Array.from(table.getElementsByTagName('tr'));
-            const statusIndex = 2; // Indeks kolom "Status Pelatihan"
-
-            // Sort rows based on status
-            rowsArray.sort((rowA, rowB) => {
-                const statusA = rowA.getElementsByTagName('td')[statusIndex].textContent;
-                const statusB = rowB.getElementsByTagName('td')[statusIndex].textContent;
-
-                if (statusSortOrder === 'asc') {
-                    return statusA.localeCompare(statusB);
-                } else {
-                    return statusB.localeCompare(statusA);
-                }
-            });
-
-            // Update table rows
-            table.innerHTML = '';
-            rowsArray.forEach(row => table.appendChild(row));
-
-            // Toggle sort order
-            statusSortOrder = (statusSortOrder === 'asc') ? 'desc' : 'asc';
-
-            // Update sort icon
-            const statusSortIcon = document.getElementById('statusSortIcon');
-            statusSortIcon.innerHTML = (statusSortOrder === 'asc') ? '&#x25BC;' : '&#x25B2;';
-        }
-
-        // Filter data berdasarkan kategori pelatihan
-        function filterByCategory() {
-            const filterType = document.getElementById('sortType').value;
-
-            rows.forEach(row => {
-                const categoryCell = row.getElementsByTagName('td')[3]; // Indeks kolom "Tipe Pelatihan"
-                const category = categoryCell.textContent;
-
-                if (filterType === 'All' || filterType === category) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        // Panggil fungsi filterByCategory saat nilai dropdown berubah
-        document.getElementById('sortType').addEventListener('change', () => {
-            filterByCategory();
-        });
     </script>
 
 </body>

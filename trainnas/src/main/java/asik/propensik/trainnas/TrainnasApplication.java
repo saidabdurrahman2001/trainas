@@ -9,5 +9,5 @@ public class TrainnasApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TrainnasApplication.class, args);
 	}
-
+	
 }

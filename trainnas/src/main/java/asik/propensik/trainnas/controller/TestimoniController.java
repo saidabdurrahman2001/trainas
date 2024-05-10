@@ -106,7 +106,8 @@ public class TestimoniController {
         testimoni.setPelatihan(pelatihan);
         System.out.println("masuk4");
 
-        UserModel user = userService.yangSedangLogin();
+        String email = "admin2@gmail.com";
+        UserModel user = userService.getUserByEmail(email);
 
         // Mengaitkan testimoni dengan pengguna
         testimoni.setUser(user);

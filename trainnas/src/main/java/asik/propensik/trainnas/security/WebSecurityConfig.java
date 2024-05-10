@@ -58,6 +58,8 @@ public class WebSecurityConfig {
                         .hasAnyAuthority("trainee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/filterDaftarPelatihanSaya"))
                         .hasAnyAuthority("trainee", "admin")
+                        .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall-pelatihan"))
+                        .hasAnyAuthority("admin", "trainermanager")
                         .requestMatchers(new AntPathRequestMatcher("/silabus/viewall"))
                         .hasAnyAuthority("trainee", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/testimoni/add"))
@@ -94,6 +96,7 @@ public class WebSecurityConfig {
                         .hasAnyAuthority("trainer", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/silabus/searchSilabus"))
                         .hasAnyAuthority("trainer", "admin")
+                        
 
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
