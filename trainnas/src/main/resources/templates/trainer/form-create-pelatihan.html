@@ -20,19 +20,19 @@
           <!-- <form th:action="@{/barang/tambah}" th:object="${barangDTO}" method="POST"></form> -->
           <form th:action="@{/pelatihan/add}" th:object="${pelatihanDTO}" method="POST">
             Nama Pelatihan: <br>
-            <input class="form-control" type="text" th:field="*{namaPelatihan}" required/>
+            <input class="form-control" type="text" th:field="*{namaPelatihan}" required />
             </br>
 
             Deskripsi Pelatihan: <br>
-            <input class="form-control" type="text" th:field="*{deskripsi}" required/>
+            <input class="form-control" type="text" th:field="*{deskripsi}" required />
             </br>
 
             Tempat Pelatihan: <br>
-            <input class="form-control" type="text" th:field="*{tempat}" required/>
+            <input class="form-control" type="text" th:field="*{tempat}" required />
             </br>
 
             Narahubung: <br>
-            <input class="form-control" type="text" th:field="*{narahubung}" required/>
+            <input class="form-control" type="text" th:field="*{narahubung}" required />
             </br>
 
             Jenis Pelatihan: <br>
@@ -51,12 +51,8 @@
             </table>
 
             Tanggal Pelatihan: <br>
-            <input class="form-control" type="date" th:field="*{tanggal}" required/>
+            <input class="form-control" type="date" th:field="*{tanggal}" required />
             <br><br>
-
-<!--            url image: <br>-->
-<!--            <input class="form-control" type="text" th:field="*{image}" />-->
-<!--            <br><br>-->
 
             <button class="btn btn-primary" type="submit" onclick="return confirmRegistration()">Submit</button>
             <!-- <a class="btn btn-primary" href="/">Home</a> -->
@@ -65,13 +61,12 @@
       </div>
     </div>
   </div>
-    <script>
-        function confirmRegistration() {
-          return confirm("Apakah Anda yakin ingin menambahkan pelatihan dengan informasi yang telah diisi?");
-        }
-    </script>
+  <script>
+    function confirmRegistration() {
+      return confirm("Apakah Anda yakin ingin menambahkan pelatihan dengan informasi yang telah diisi?");
+    }
+  </script>
 
 </body>
 
 </html>
-

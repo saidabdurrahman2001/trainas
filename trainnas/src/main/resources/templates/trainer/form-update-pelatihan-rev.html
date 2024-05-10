@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Forum Menambah Pelatihan</title>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        body {
+            color: #000;
+            overflow-x: hidden;
+            height: 100%;
+            background-image: url("");
+            background-repeat: repeat;
+            background-size: 100% 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card {
+            padding: 30px 40px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            border: none !important;
+            box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .blue-text {
+            color: #00BCD4;
+        }
+
+        .form-control-label {
+            margin-bottom: 0;
+        }
+
+        input,
+        textarea,
+        button {
+            padding: 8px 15px;
+            border-radius: 5px !important;
+            margin: 5px 0px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            font-size: 18px !important;
+            font-weight: 300;
+        }
+
+        input:focus,
+        textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: 1px solid #00BCD4;
+            outline-width: 0;
+            font-weight: 400;
+        }
+
+        .btn-block {
+            text-transform: uppercase;
+            font-size: 15px !important;
+            font-weight: 400;
+            height: 43px;
+            cursor: pointer;
+        }
+
+        .btn-block:hover {
+            color: #fff !important;
+        }
+
+        button:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            outline-width: 0;
+        }
+
+        .container-fluid {
+            padding-top: 100px;
+            /* Tambahkan padding atas yang cukup untuk menjaga konten di bawah navbar */
+        }
+
+        nav {
+            padding: 0 40px;
+            height: 80px;
+            background-color: #2866c4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #e3e3e3;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            /* Tambahkan z-index untuk memastikan navbar selalu di atas */
+        }
+
+        #nav-left {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 90px;
+        }
+
+        #nav-items {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        #logo_gernas {
+            width: 50px;
+            height: 50px;
+        }
+
+        #logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body className='snippet-body'>
+    <nav>
+        <div id="nav-left">
+            <div id="logo">
+                <img id="logo_gernas" src="/images/logo_gernas2.png">
+                <!-- <p>TRAINNAS</p> -->
+                <div class="menu-item" id="daftar-pelatihan">
+                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">TRAINNAS</span>
+                </div>
+            </div>
+            <div id="nav-items">
+                <div class="menu-item" id="daftar-pelatihan">
+                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Dashboard</span>
+                </div>
+                <div class="menu-item" id="daftar-pelatihan">
+                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Daftar Pelatihan</span>
+                </div>
+                <div class="menu-item" id="daftar-bahan-ajar">
+                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Daftar Bahan Ajar</span>
+                </div>
+                <div class="menu-item" id="daftar-pelatihan">
+                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Tentang Kami</span>
+                </div>
+            </div>
+        </div>
+        <div id="nav-right">
+            <div class="menu-item" id="daftar-pelatihan">
+                <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Login/Buat Akun</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-1 py-5 mx-auto">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+                <h3>Forum Memperbarui Pelatihan</h3>
+                <div class="card">
+                    <form th:action="@{/pelatihan/update(id=${pelatihan.idPelatihan})}" method="POST" class="form-card">
+                        <input class="form-control" type="hidden" name="id" th:value="${pelatihan.idPelatihan}">
+
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Nama Pelatihan<span class="text-danger">
+                                        *</span></label>
+                                <input th:value="${pelatihan.namaPelatihan}" type="text" required id="namaPelatihan"
+                                    name="namaPelatihan" placeholder="Masukan nama pelatihan">
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Tanggal Mulai Pelatihan<span class="text-danger">
+                                        *</span></label>
+                                <input th:value="${#dates.format(pelatihan.tanggal, 'yyyy-MM-dd')}" required type="date"
+                                    id="tanggalMulai" name="tanggalMulai" placeholder="Masukan tanggal mulai pelatihan">
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Deskripsi Pelatihan<span class="text-danger">
+                                        *</span></label>
+                                <textarea id="deskripsi" required name="deskripsi"
+                                    placeholder="Masukan deskripsi pelatihan" style="width: 100%; height: 150px;"
+                                    th:text="${pelatihan.deskripsi}"></textarea>
+
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Tanggal Akhir Pelatihan<span class="text-danger">
+                                        *</span></label>
+                                <input th:value="${#dates.format(pelatihan.tanggalAkhir, 'yyyy-MM-dd')}" required
+                                    type="date" id="tanggalAkhir" name="tanggalAkhir" placeholder="">
+                            </div>
+
+                        </div>
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Tipe Pelatihan<span class="text-danger">
+                                        *</span></label>
+                                <select id="tipe" name="tipe" class="form-control">
+                                    <option value="Gernastastaka" th:selected="${pelatihan.tipe eq '1'}">Gernastastaka
+                                    </option>
+                                    <option value="Gernastastaba" th:selected="${pelatihan.tipe eq '2'}">Gernastastaba
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Batas Registrasi<span class="text-danger">
+                                        *</span></label>
+                                <input required type="date" id="batasRegistrasi" name="batasRegistrasi"
+                                    placeholder="Masukan batas registrasi">
+                            </div>
+
+                        </div>
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Penyelenggaraan<span class="text-danger">
+                                        *</span></label>
+                                <select id="penyelenggaraan" name="penyelenggaraan" class="form-control"
+                                    onchange="toggleLocationField()">
+                                    <option value="offline">Offline</option>
+                                    <option value="online">Online</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">Waktu Mulai Pelatihan<span class="text-danger">
+                                        *</span></label>
+                                <input th:value="${pelatihan.waktuMulai}" required type="time" id="waktuMulai"
+                                    name="waktuMulai" placeholder="Masukan waktu pelatihan">
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-12 flex-column d-flex">
+                                <label id="locationLabel" class="form-control-label px-3">Lokasi Pelatihan<span
+                                        class="text-danger">
+                                        *</span></label>
+                                <input th:value="${pelatihan.tempat}" required type="text" id="locationInput"
+                                    name="locationInput" placeholder="Masukan lokasi pelatihan">
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-6 flex-column d-flex">
+                                <label id="locationLabel" class="form-control-label px-3">Narahubung<span
+                                        class="text-danger">
+                                        *</span></label>
+                                <input th:value="${pelatihan.narahubung}" required type="text" id="narahubung"
+                                    name="narahubung" placeholder="Nama - 081xxxxx">
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-end">
+                            <div class="form-group col-sm-6">
+                                <button type="submit" class="btn-block btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript'
+        src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript'>
+        function confirmRegistration() {
+            return confirm("Apakah Anda yakin ingin menambahkan pelatihan dengan informasi yang telah diisi?");
+        }
+        function toggleLocationField() {
+            var penyelenggaraan = document.getElementById("penyelenggaraan").value;
+            var locationContainer = document.getElementById("locationContainer");
+            var locationLabel = document.getElementById("locationLabel");
+            var locationInput = document.getElementById("locationInput");
+
+            if (penyelenggaraan === "offline") {
+                locationLabel.innerHTML = "Pilih Lokasi Pelatihan<span class='text-danger'> *</span>";
+                locationInput.placeholder = "Masukan lokasi pelatihan";
+                locationInput.type = "text"; // Input type text untuk lokasi
+                locationContainer.style.display = "block"; // Menampilkan field
+            } else if (penyelenggaraan === "online") {
+                locationLabel.innerHTML = "Link Pelatihan<span class='text-danger'> *</span>";
+                locationInput.placeholder = "Masukan link pelatihan";
+                locationInput.type = "url"; // Input type URL untuk validasi link
+                locationContainer.style.display = "block"; // Menampilkan field
+            } else {
+                locationContainer.style.display = "none"; // Sembunyikan field jika tidak ada pilihan atau pilihan direset
+            }
+        }
+
+    </script>
+</body>
+
+</html>
