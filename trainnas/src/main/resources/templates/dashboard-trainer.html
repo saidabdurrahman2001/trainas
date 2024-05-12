@@ -245,10 +245,11 @@
     </script>
     <style>
         .chart-container {
-            width: 500px;
-            height: 500px;
+            width: 430px;
+            height: 350px;
             display: inline-block;
             border: 1px solid #ccc;
+            border-radius: 10px;
             /* Tambahkan garis tepi */
             margin: 10px;
             /* Tambahkan ruang antara kotak */
@@ -256,13 +257,20 @@
             /* Tambahkan ruang di dalam kotak */
             box-sizing: border-box;
             /* Pastikan padding tidak meningkatkan lebar kotak */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Menambahkan efek bayangan */
+            transition: transform 0.3s ease; /* Menambahkan efek transisi */
+        }
+
+        .chart-container:hover {
+            transform: scale(1.05); /* Memberikan efek scaling saat mouse hover */
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            /* background-color: whitesmoke; */
+            background-image: linear-gradient(to bottom right, #2458ab, #6cf7cd);
         }
 
         .container {
@@ -274,9 +282,20 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
+        .container-fluid{
+            width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         h1 {
             text-align: center;
             color: #333;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
         }
 
         table {
@@ -326,22 +345,23 @@
             margin-left: 5px;
             font-size: 12px;
         }
-
-        .container-fluid{
-            width: 80%;
-        }
     </style>
 </head>
 
 <body>
     <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
     <br><br><br>
-    
-    <div id="perbandinganPelatihanChart" class="chart-container"></div>
-    <div id="jumlahPendaftaranChart" class="chart-container"></div>
-    <div id="topPelatihanChart" class="chart-container"></div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color: white;">
+
+        <div class="text-center pt-5">
+            <h2>Training Analytics</h2>
+        </div>
+        <div id="perbandinganPelatihanChart" class="chart-container"></div>
+        <div id="jumlahPendaftaranChart" class="chart-container"></div>
+        <div id="topPelatihanChart" class="chart-container"></div>
+
+
         <div class="text-center pt-5">
             <h2>Training History</h2>
         </div>
