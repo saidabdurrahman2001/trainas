@@ -36,19 +36,27 @@ public class TestimoniController {
     @Autowired
     UserServiceImpl userService;
 
-    @GetMapping("/listTestimoni")
-    public String listTestimoni(Model model) {
-        List<Testimoni> listTestimoni = testimoniService.getAllTestimoni();
-        model.addAttribute("listTestimoni", listTestimoni);
+    // @GetMapping("/listTestimoni")
+    // public String listTestimoni(Model model) {
+    //     List<Testimoni> listTestimoni = testimoniService.getAllTestimoni();
+    //     model.addAttribute("listTestimoni", listTestimoni);
 
-        return "testimoni/listTestimoni";
-    }
+    //     return "testimoni/listTestimoni";
+    // } 
 
     @GetMapping("/listTestimoni-admin")
     public String listTestimoniAdmin(Model model) {
         List<Testimoni> listTestimoni = testimoniService.getAllTestimoni();
         model.addAttribute("listTestimoni", listTestimoni);
 
+        return "testimoni/listTestimoni-admin";
+    }
+
+    @GetMapping("/pelatihan/searchTestimoni")
+    public String searchTestimoni(@RequestParam("searchQuery") String searchQuery, Model model) {
+        List<Pelatihan> listPelatihan;
+        listPelatihan = pelatihanService.searchPelatihanByJudul(searchQuery);
+        model.addAttribute("listPelatihan", listPelatihan);
         return "testimoni/listTestimoni-admin";
     }
 
@@ -118,11 +126,24 @@ public class TestimoniController {
 
     }
 
-    @GetMapping("/delete")
-    public String deleteTestimoni(@RequestParam("id") Long id) {
+    // @GetMapping("/delete")
+    // public String deleteTestimoni(@RequestParam("id") Long id) {
+    //     testimoniService.deleteTestimoni(id);
+    //     return "redirect:/testimoni/listTestimoni-admin";
+    // }
+
+    // @PostMapping("/delete")
+    // public String deleteTestimoni(@RequestParam("id") Long id) {
+    //     testimoniService.deleteTestimoni(id);
+    //     return "redirect:/testimoni/listTestimoni-admin";
+    // }
+
+    @PostMapping("/delete/{id}")
+    public String deleteTestimoni(@PathVariable("id") Long id) {
         testimoniService.deleteTestimoni(id);
         return "redirect:/testimoni/listTestimoni-admin";
     }
+
 
     // @GetMapping("/searchTestimoni")
     // public String searchTestimoni(@RequestParam("searchQuery") String search,
