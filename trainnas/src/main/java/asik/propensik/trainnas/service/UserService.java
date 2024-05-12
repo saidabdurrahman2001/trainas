@@ -11,6 +11,7 @@ public interface UserService {
     public String encrypt(String password);
     public List<PelatihanTrainee> listPelatihan();
     public List<Testimoni> getAllTestimoniByLoggedInUser();
+    public UserModel findByUsername(String username);
 }
 
 

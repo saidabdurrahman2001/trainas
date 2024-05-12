@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,6 +62,13 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/profile")
+    public String profilUser(Model model){
+        UserModel user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
 
     @GetMapping("/login")
     public String loginUser() {
@@ -93,50 +101,7 @@ public class UserController {
     //     return "user-list"; // Nama file HTML untuk menampilkan daftar user
     // }
 
-    // @GetMapping("/users/add-trainee")
-    // public String addTraineeFormPage(Model model) {
-    //     var userDTO = new CreateUserRequestDTO();
-    //     model.addAttribute("userDTO", userDTO);
-    //     return "trainee/form-registrasi-trainee";
-    // }
-
-    // @PostMapping("/users/add-trainee")
-    // public String addTraineeSubmit(@ModelAttribute CreateUserRequestDTO userDTO, Model model) {
-    //     userDTO.setRole("Trainee");
-    //     var user = userMapper.createUserRequestDTOToUser(userDTO);
-    //     userService.addUser(user);
-    //     return "trainee/success-create-trainee";
-    // }
-
-    // @GetMapping("/users/add-trainer")
-    // public String addTrainerFormPage(Model model) {
-    //     var userDTO = new CreateUserRequestDTO();
-    //     model.addAttribute("userDTO", userDTO);
-    //     return "trainer/form-registrasi-trainer";
-    // }
-
-    // @PostMapping("/users/add-trainer")
-    // public String addTrainerSubmit(@ModelAttribute CreateUserRequestDTO userDTO, Model model) {
-    //     userDTO.setRole("Trainer");
-    //     var user = userMapper.createUserRequestDTOToUser(userDTO);
-    //     userService.addUser(user);
-    //     return "trainer/success-create-trainer";
-    // }
-
-    // @GetMapping("/users/add-community")
-    // public String addCommunityFormPage(Model model) {
-    //     var userDTO = new CreateUserRequestDTO();
-    //     model.addAttribute("userDTO", userDTO);
-    //     return "community/form-registrasi-community";    
-    // }
-
-    // @PostMapping("/users/add-community")
-    // public String addCommunitySubmit(@ModelAttribute CreateUserRequestDTO userDTO, Model model) {
-    //     userDTO.setRole("Community");
-    //     var user = userMapper.createUserRequestDTOToUser(userDTO);
-    //     userService.addUser(user);
-    //     return "community/success-create-community";
-    // }
+   
     
     // @GetMapping("/users/profile-update")
     // public String formUpdateProfile(Model model, @RequestParam("id") Long idUser) {
