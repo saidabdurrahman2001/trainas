@@ -27,6 +27,7 @@ public class Silabus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSilabus;
 
+    private int diunduh;
     private String tingkatan;
     private String deskripsi;
     private String filePath;

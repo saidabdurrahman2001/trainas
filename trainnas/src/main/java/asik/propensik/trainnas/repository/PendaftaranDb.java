@@ -66,4 +66,8 @@ public interface PendaftaranDb extends JpaRepository<Pendaftaran, Long> {
 
         @Query("SELECT p.pelatihan FROM Pendaftaran p WHERE p.user = :user")
         List<Pelatihan> findPelatihanByUser(UserModel user);
+
+        Boolean existsByUserAndPelatihan(UserModel user, Pelatihan pelatihan);
+
+        Pendaftaran findByUserAndPelatihan(UserModel user, Pelatihan pelatihan);
 }

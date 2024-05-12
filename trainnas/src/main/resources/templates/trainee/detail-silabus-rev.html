@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Silabus</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Inline CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+
+        }
+
+        .card {
+            width: 100%;
+            max-width: 300px;
+            margin: auto;
+            border: none;
+        }
+
+        .card-img-top {
+            width: 50%;
+            height: auto;
+            border-radius: 50px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-img-top-bot {
+            width: 80%;
+            height: auto;
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            align-items: center;
+
+        }
+
+        .row {
+            /* Menambahkan garis luar */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            /* Menambahkan bayangan */
+            padding: 20px;
+            width: 800px;
+            margin: 20px auto;
+            display: flex;
+            /* Mengubah display menjadi flex */
+            align-items: center;
+            /* Mengatur item di tengah vertikal */
+            justify-content: space-between;
+            /* Mengatur jarak antara item */
+            /* border: 2px solid black; */
+        }
+
+        .download-info {
+            text-align: right;
+            /* Mengatur teks di kanan */
+        }
+
+        .card-rekomendasi {
+            /* text-align: center; */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            height: 400px;
+
+        }
+
+        .card-title-rec {
+            height: 90px;
+            margin-left: 20px;
+            margin-bottom: 10px;
+            /* background-color: blue; */
+            overflow-y: scroll;
+        }
+
+        .button-detail {
+            height: 30px;
+            margin-left: 20px;
+            margin-bottom: 5px;
+            /* background-color: brown; */
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar('silabus')}"></nav>
+    <br>
+    <div class="container">
+        <div class="text-center">
+            <h3>Detail Bahan Ajar</h3>
+        </div>
+        <div class="row">
+            <!-- Gambar di kiri -->
+            <img src="/images/bahan_ajar.png" class="card-img-top">
+            <div class="col-md-8 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Label PDF dan Tingkatan -->
+                        <!-- <p class="card-text">Label PDF: <span th:text="${silabus.label}"></span></p> -->
+                        <span class="badge bg-danger" style="padding: 0.5rem 1rem;">Buku PDF </span>
+                        <span class="badge bg-secondary" style="padding: 0.5rem 1rem; margin-bottom: 5px;"
+                            th:text="${silabus.tingkatan}"></span>
+                        <h5 class="card-title" th:text="${silabus.deskripsi}"></h5>
+                        <!-- <p class="card-text">Tingkatan: <span th:text="${silabus.tingkatan}"></span></p> -->
+                        <p>Telah diunduh <span th:text="${silabus.diunduh}"></span> kali</p>
+                        <!-- Judul -->
+                        <!-- Tombol unduh -->
+                        <a type="button" class="btn btn-md btn-primary"
+                            th:href="@{/silabus/download/{id}(id=${silabus.idSilabus})}" target="_blank">Download</a>
+                        <!-- Info download -->
+                        <!-- <p class="download-info">Telah diunduh <span th:text="${silabus.downloadCount}"></span> kali</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            Rekomendasi Buku Ajar Lainnya:
+        </div>
+        <div class="row">
+            <div th:if="${!listSilabus.isEmpty()}" th:each="index : ${#numbers.sequence(0, listSilabus.size() - 1)}"
+                class="col">
+                <div class="col">
+                    <div class="card-rekomendasi">
+                        <img src="/images/bahan_ajar.png" class="card-img-top-bot" alt="..." style="height: 100px; ">
+                        <div class="card-body">
+                            <h6 style="margin-left: 22px;">
+                                <span class="badge bg-danger" style="padding: 0.5rem 1rem;"> PDF </span>
+                                <span th:text="${listSilabus[listSilabus.size() - 1 - index].tingkatan}"
+                                    class="badge bg-secondary" style="padding: 0.5rem 1rem;"></span>
+                            </h6>
+                            <div class="card-title-rec">
+                                <h8 th:text="${listSilabus[listSilabus.size() - 1 - index].deskripsi}">
+                                </h8>
+                            </div>
+                            <div class="button-detail">
+                                <a type="button" class="btn btn-primary"
+                                    th:href="@{/silabus/detail(id=${listSilabus[listSilabus.size() - 1 - index].idSilabus})}">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

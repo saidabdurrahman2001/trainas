@@ -1,7 +1,7 @@
 package asik.propensik.trainnas.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
+import java.time.LocalTime; 
 import java.util.Date;
 import java.util.List;
 
@@ -61,10 +61,10 @@ public class PelatihanController {
         return "home";
     }
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
+    // @RequestMapping("/login")
+    // public String login() {
+    // return "login";
+    // }
 
     @GetMapping("/pelatihan/add")
     public String formAddPelatihan(Model model) {
@@ -211,11 +211,16 @@ public class PelatihanController {
     @GetMapping("/pelatihan/searchTrainee")
     public String searchPelatihan(@RequestParam("searchQuery") String searchQuery, Model model) {
         List<Pelatihan> listPelatihan;
+        System.out.println("masuk search trainee 1");
         if (searchQuery != null && !searchQuery.isEmpty()) {
+            System.out.println("masuk search trainee 2");
             // Ambil data pelatihan yang sudah di-approve dan sesuai dengan kriteria
             // pencarian
             listPelatihan = pelatihanService.searchApprovedPelatihanByTitle(searchQuery);
+            System.out.println(listPelatihan);
+            System.out.println("sampe final destination");
         } else {
+            System.out.println("masuk search trainee 3");
             // Ambil semua data pelatihan yang sudah di-approve
             listPelatihan = pelatihanService.getAllApprovedPelatihan();
         }
@@ -279,11 +284,14 @@ public class PelatihanController {
     }
 
     @PostMapping("/pelatihan/cancel/{id}")
-    public String cancelPendaftaran(@PathVariable("id") String idPendaftaranStr) {
-        Long idPendaftaran = Long.parseLong(idPendaftaranStr);
-        System.out.println(idPendaftaran);
+    public String cancelPendaftaran(@PathVariable("id") String idPelatihan) {
+        System.out.println("masuk cancel");
+        Long idPelatihan2 = Long.parseLong(idPelatihan);
+        Pelatihan pelatihan = pelatihanService.getPelatihanById(idPelatihan2);
+        UserModel user = userService.yangSedangLogin();
+
         // Menghapus pendaftaran berdasarkan ID pendaftaran
-        pendaftaranService.cancelPendaftaran(idPendaftaran);
+        pendaftaranService.cancelPendaftaran(user, pelatihan);
         return "redirect:/pelatihan/daftarPelatihanSaya";
     }
 
@@ -317,7 +325,10 @@ public class PelatihanController {
     @GetMapping("/pelatihan/detail")
     public String detailPelatihan(Model model, @RequestParam("id") Long idPelatihan) {
         var pelatihan = pelatihanService.getPelatihanById(idPelatihan);
+        var user = userService.yangSedangLogin();
+        var udahDaftar = pendaftaranService.udahDaftar(user, pelatihan);
         model.addAttribute("pelatihan", pelatihan);
+        model.addAttribute("udahDaftar", udahDaftar);
         // Lakukan logika untuk mengambil detail pelatihan berdasarkan ID
         return "trainee/detailPelatihanRev"; // Sesuaikan dengan halaman yang diinginkan
     }
@@ -360,6 +371,7 @@ public class PelatihanController {
         pelatihanToUpdate.setPenyelenggaraan(penyelenggaraan);
         pelatihanToUpdate.setTempat(locationInput);
         pelatihanToUpdate.setNarahubung(narahubung);
+        pelatihanToUpdate.setStatusApproval(1);
 
         // Parsing tanggalMulai dan tanggalAkhir menjadi objek Date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

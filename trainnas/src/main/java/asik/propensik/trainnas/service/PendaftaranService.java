@@ -87,9 +87,9 @@ public class PendaftaranService {
                 "Gernastastaba", email);
     }
 
-    public void cancelPendaftaran(Long idPendaftaran) {
-        // Menghapus pendaftaran berdasarkan ID pendaftaran
-        pendaftaranDb.deleteById(idPendaftaran);
+    public void cancelPendaftaran(UserModel user, Pelatihan pelatihan) {
+        Pendaftaran pendaftaran = pendaftaranDb.findByUserAndPelatihan(user, pelatihan);
+        pendaftaranDb.delete(pendaftaran);
     }
 
     // public List<Pendaftaran> searchPelatihanByAsalSekolahAndNama(String
@@ -193,6 +193,10 @@ public class PendaftaranService {
         }
 
         return dataJumlahPendaftaran;
+    }
+
+    public Boolean udahDaftar(UserModel user, Pelatihan pelatihan) {
+        return pendaftaranDb.existsByUserAndPelatihan(user, pelatihan);
     }
 
 }

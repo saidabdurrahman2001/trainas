@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import asik.propensik.trainnas.dto.request.CreateSilabusRequestDTO;
 import asik.propensik.trainnas.model.Silabus;
 import asik.propensik.trainnas.service.SilabusService;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.File;
 import java.util.*;
@@ -32,7 +34,7 @@ public class SilabusController {
     public String silabus(Model model) {
         List<Silabus> listSilabus = silabusService.getAllSilabus();
         model.addAttribute("listSilabus", listSilabus);
-        return "trainee/trainee-viewall-silabus";
+        return "trainee/trainee-viewall-silabus-rev";
     }
 
     @GetMapping("/viewall-trainer")
@@ -123,8 +125,20 @@ public class SilabusController {
     @GetMapping("/detail")
     public String detailSilabus(@RequestParam("id") Long id, Model model) {
         Silabus silabus = silabusService.getSilabusById(id);
+        var listSilabus = silabusService.getAllSilabus();
+        List<Silabus> lastThreeSilabus; // Deklarasi diluar blok if
+
+        if (listSilabus.size() >= 3) {
+            // Mendapatkan 3 silabus terakhir
+            lastThreeSilabus = listSilabus.subList(listSilabus.size() - 3, listSilabus.size());
+            // Lakukan sesuatu dengan lastThreeSilabus...
+        } else {
+            lastThreeSilabus = listSilabus;
+        }
+
         model.addAttribute("silabus", silabus);
-        return "trainee/detail-silabus";
+        model.addAttribute("listSilabus", lastThreeSilabus);
+        return "trainee/detail-silabus-rev";
     }
 
     @GetMapping("/update")
@@ -206,7 +220,39 @@ public class SilabusController {
             listSilabus = silabusService.searchSilabusByQueryAndTingkatan(search, tingkatan);
         }
         model.addAttribute("listSilabus", listSilabus);
-        return "trainer/viewall-silabus";
+        return "trainee/trainee-viewall-silabus-rev";
+    }
+
+    @GetMapping("/filterSearchSilabus")
+    public String sortSilabus(@RequestParam(value = "sortType", required = false) String search, Model model) {
+
+        List<Silabus> listSilabus;
+
+        if (search == "ALL" || search.equals("ALL")) {
+            listSilabus = silabusService.getAllSilabus();
+        } else if (search == "SD" || search.equals("SD")) {
+            listSilabus = silabusService.searchSilabusByTingkatan("SD");
+        } else if (search == "SMP" || search.equals("SMP")) {
+            listSilabus = silabusService.searchSilabusByTingkatan("SMP");
+        } else if (search == "SMA" || search.equals("SMA")) {
+            listSilabus = silabusService.searchSilabusByTingkatan("SMA");
+        } else {
+            listSilabus = silabusService.getAllSilabus();
+        }
+
+        model.addAttribute("listSilabus", listSilabus);
+        return "trainee/trainee-viewall-silabus-rev";
+    }
+
+    @GetMapping("/download/{id}")
+    public String download(@PathVariable("id") String id, HttpServletRequest request) {
+
+        Long idLong = Long.parseLong(id);
+        silabusService.increaseDiunduh(idLong);
+        var silabus = silabusService.getSilabusById(idLong);
+
+        return "redirect:" + silabus.getFilePath();
+
     }
 
 }

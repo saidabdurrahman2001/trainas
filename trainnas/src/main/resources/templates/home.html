@@ -3,10 +3,15 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Form Add Pelatihan</title>
+    <title>Homepage Trainnas</title>
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
         .content {
             position: relative;
             width: 100%;
@@ -18,7 +23,7 @@
 
         .bg-image {
             position: relative;
-            background-image: url("/images/Trainnas Homepage.jpg");
+            background-image: url("/images/Trainnas Homepage2.png");
             background-size: cover;
             background-position: center;
             height: 55vh;
@@ -42,7 +47,7 @@
             text-align: center;
         }
 
-        .container_data{
+        .container_data {
             padding-block: 0;
             width: 70%;
             padding: 2rem;
@@ -60,14 +65,11 @@
             padding : 0;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .card-wrapper{
-        
-        }
     </style>
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
+    <nav th:replace="~{fragments/navbar :: navbar('user')}"></nav>
     <br><br>
     <div class="container-fluid">
         <div class="row">
@@ -80,7 +82,7 @@
                     <button class="btn btn-primary" onclick="window.location.href='/trainee/add'">Daftar Sekarang</button>
                 </div>
             </div>
-            
+
             <div class="container_data container">
                 <div class="row justify-content-start">
 
@@ -136,14 +138,14 @@
                                             <h1 class="mb-0">218</h1>
                                         </div>
                                         <div class="col-md-12">
-                                            <h3 class="mb-3 font-weight-normal">Trainnas Berbagi</h3>
+                                            <h4 class="mb-3 font-weight-normal">Trainnas Berbagi</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             
@@ -184,4 +186,5 @@
         </div>
     </div>
 </body>
+
 </html>
