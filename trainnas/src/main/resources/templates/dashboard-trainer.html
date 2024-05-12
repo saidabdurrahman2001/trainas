@@ -373,7 +373,7 @@
                     <th>Jumlah Pendaftar</th>
                     <th>Status Pelatihan</th>
                     <th>Tipe Pelatihan</th>
-                    <th>Penyelenggaraan</th>
+                    <th>Tempat</th>
                 </tr>
             </thead>
 
@@ -381,7 +381,6 @@
                 <tr th:each="pelatihan : ${pelatihanList}">
                     <td th:text="${pelatihan.namaPelatihan}"></td>
                     <td th:text="${pelatihan.jumlahPendaftar}"></td>
-                    <!-- <td> Jumlah Pendaftar</td> -->
                     <td>
                         <span class="badge status-badge" th:switch="${pelatihan.statusApproval}">
                             <span th:case="1" class="badge bg-warning">Requested</span>
