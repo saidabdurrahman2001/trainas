@@ -12,6 +12,30 @@
 		<title>Daftar Pelatihan Saya</title>
 
 		<style>
+			.card-img-top{
+				border-radius: 50px;
+				padding: 20px;    
+			}
+
+			.card{
+				border-radius: 30px;
+				box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+			}
+
+			.card-body{
+				padding: 25px;
+				margin-top: -15px;
+			}
+
+			.btn-primary{
+				border-radius: 50px;
+				width: 120px;
+			}
+
+			.btn-primary:hover{
+				background-color: black;
+			}
+
 			.card-available {
 				background-color: #ffffff;
 				/* Warna putih */
@@ -78,71 +102,51 @@
 				</div>
 			</form>
 
-			<!-- <div class="container">
+			<div class="container">
 				<div class="row row-cols-1 row-cols-md-3 g-4 py-5">
 					<div th:if="${!listPendaftaran.isEmpty()}" th:each="index : ${#numbers.sequence(0, listPendaftaran.size() - 1)}" class="col">
-						<div class="col">
-							<div class="card" th:class="${listPelatihan[listPelatihan.size() - 1 - index].statusApproval == 5} ? 'card card-done' : 'card card-available'">
-								<img src="/images/image-1.jpg" class="card-img-top" alt="..." style="height: 400px;">
-								<div class="card-body">
-								  <h5 class="card-title" th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.namaPelatihan}"></h5>
-								  <p class="card-text" th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.deskripsi}"></p>
-								</div>
-								<div class="d-flex justify-content-around mb-5">
-									<a type="button" class="btn btn-primary" th:href="@{/pelatihan/detail(id=${listPelatihan[listPelatihan.size() - 1 - index].idPelatihan})}">Detail</a>
-								</div>
+					<div class="col">
+						<div class="card" th:class="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.statusApproval == 5} ? 'card card-done' : 'card card-available'">
+							<img src="/images/LogoGernasSmall.png" class="card-img-top" alt="..." style="height: 400px;">
+							<div class="card-body">
+								<p><span th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.tipe}" class="badge bg-success"></span> <span
+									th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.penyelenggaraan}" class="badge bg-warning"></span> </p>
+							  	<h3 class="card-title" th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.namaPelatihan}"></h3>
+								<br>
+								<p><img class="pelatihan-image" style="width: 9%; margin-right: 10px;" ; src="/images/calendar.png"
+									alt="Gambar Pelatihan"> <span
+									th:text="${#dates.format({listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.tanggal}, 'dd MMMM yyyy')}"></span> - <span
+									th:text="${#dates.format({listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.tanggalAkhir}, 'dd MMMM yyyy')}"></span></p>
+								<p><img class="pelatihan-image" style="width: 9%; margin-right: 10px;" ; src="/images/location.png"
+									alt="Gambar Pelatihan"> <span th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.tempat}"></span></p>
 							</div>
-						</div>
-					</div>    
-				</div>
-			</div> -->
-
-
-			<div class="row row-cols-4">
-				<div
-					th:if="${!listPendaftaran.isEmpty()}"
-					th:each="index : ${#numbers.sequence(0, listPendaftaran.size() - 1)}"
-					class="col">
-					<!-- Mendapatkan indeks dari listPendaftaran, dimulai dari ukuran list - 1 hingga 0 -->
-					 <div
-						class="card mb-3"
-						style="max-width: 18rem"
-						th:class="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.statusApproval == 5 ? 'card card-done' : 'card card-available'}">
-						<!-- Mengakses item listPendaftaran menggunakan indeks yang dihitung mundur -->
-						<div class="card-body">
-							<h5
-								th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.namaPelatihan}"
-								class="card-title"></h5>
-							<h5
-								th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.statusApproval}"
-								class="card-title"></h5>
-							<br />
-							<a
+							<div class="d-flex justify-content-around mb-5">
+								<a
 								th:href="@{/pelatihan/detail(id=${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.idPelatihan})}"
 								class="btn btn-md btn-detail"
 								style="width: 90px;"
 								>Detail
-							</a
-							>
-							<!-- Tambahkan kembali form di sini -->
-							<form
+								</a>
+								<form
 								th:action="@{/pelatihan/cancel/{id}(id=${listPendaftaran[listPendaftaran.size() - 1 - index].idPendaftaran})}"
 								method="post"
 								th:id="'cancelForm-' + ${listPendaftaran[listPendaftaran.size() - 1 - index].idPendaftaran}">
-								<button
-									type="button"
-									class="btn btn-danger btn-delete"
-									th:unless="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.statusApproval == 5}"
-									th:onclick="'confirmCancellation(' + ${listPendaftaran[listPendaftaran.size() - 1 - index].idPendaftaran} + ')'"
-									style="width: 90px;">
-									Batalkan
-								</button>
-							</form>
+									<button
+										type="button"
+										class="btn btn-danger btn-delete"
+										th:unless="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.statusApproval == 5}"
+										th:onclick="'confirmCancellation(' + ${listPendaftaran[listPendaftaran.size() - 1 - index].idPendaftaran} + ')'"
+										style="width: 90px;">
+										Batalkan
+									</button>
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div th:if="${listPendaftaran.isEmpty()}" class="col">
-					<p>Anda belum pernah mendaftar pelatihan apapun.</p>
+					</div>    
+					<div th:if="${listPendaftaran.isEmpty()}" class="col">
+						<p>Anda belum pernah mendaftar pelatihan apapun.</p>
+					</div>
 				</div>
 			</div>
 		</div>

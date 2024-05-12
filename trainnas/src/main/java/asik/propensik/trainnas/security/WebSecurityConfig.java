@@ -26,8 +26,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/dashboard-trainer")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/trainee/add")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
                         // .requestMatchers(new
                         // AntPathRequestMatcher("/user/add")).hasAnyAuthority("admin")

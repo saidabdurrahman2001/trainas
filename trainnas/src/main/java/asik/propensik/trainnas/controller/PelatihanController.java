@@ -50,7 +50,14 @@ public class PelatihanController {
     UserServiceImpl userService;
 
     @RequestMapping("/")
-    public String hello() {
+    public String hello(Model model) {
+        List<UserModel> allUsers = userService.getAllUsers();
+        List<Pelatihan> listAllPelatihan = pelatihanService.getAllPelatihan();
+        List<Pelatihan> listPelatihan = pelatihanService.getAllApprovedPelatihan();
+
+        model.addAttribute("jumlahPengguna", allUsers.size());
+        model.addAttribute("jumlahPelatihan", listPelatihan.size());
+        model.addAttribute("listPelatihan", listPelatihan);
         return "home";
     }
 
@@ -227,6 +234,7 @@ public class PelatihanController {
             listPendaftaran = pendaftaranService.getPelatihanByEmail(email);
         }
         model.addAttribute("listPendaftaran", listPendaftaran);
+
         return "trainee/daftarPelatihanSaya";
     }
 
@@ -262,6 +270,11 @@ public class PelatihanController {
         String email = user.getEmail();
         List<Pendaftaran> listPendaftaran = pendaftaranService.getPelatihanByEmail(email);
         model.addAttribute("listPendaftaran", listPendaftaran);
+        System.out.println("Masuk ke daftarPelatihanSaya");
+        System.out.println(listPendaftaran.get(0).getPelatihan().getPenyelenggaraan());
+        System.out.println(listPendaftaran.get(0).getPelatihan().getTipe());
+
+
         return "trainee/daftarPelatihanSaya";
     }
 

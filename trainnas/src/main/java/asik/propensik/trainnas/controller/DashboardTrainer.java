@@ -44,9 +44,11 @@ public class DashboardTrainer {
     @GetMapping("/trainee")
     public String traineeDashboard(Model model) {
         UserModel user = userService.yangSedangLogin();
+        String namaUser = user.getName();
         List<Pelatihan> listPelatihan = pendaftaranService.getPelatihanByUser(user);
         System.out.println(listPelatihan.size());
         System.out.println("MASUK DASHBOARD TRAINEE");
+        model.addAttribute("user", namaUser);
         model.addAttribute("listPelatihan", listPelatihan);
 
         List<Testimoni> testimoniList = testimoniService.findByUser(user);

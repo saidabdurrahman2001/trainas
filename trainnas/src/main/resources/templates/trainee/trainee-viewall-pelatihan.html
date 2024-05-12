@@ -81,19 +81,27 @@
 
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
-                    <div th:if="${!listPelatihan.isEmpty()}" th:each="index : ${#numbers.sequence(0, listPelatihan.size() - 1)}" class="col">
-                    <div class="col">
-                        <div class="card" th:class="${listPelatihan[listPelatihan.size() - 1 - index].statusApproval == 5} ? 'card card-done' : 'card card-available'">
-                            <img src="/images/image-1.jpg" class="card-img-top" alt="..." style="height: 400px;">
-                            <div class="card-body">
-                              <h5 class="card-title" th:text="${listPelatihan[listPelatihan.size() - 1 - index].namaPelatihan}"></h5>
-                              <p class="card-text" th:text="${listPelatihan[listPelatihan.size() - 1 - index].deskripsi}"></p>
-                            </div>
-                            <div class="d-flex justify-content-around mb-5">
-                                <a type="button" class="btn btn-primary" th:href="@{/pelatihan/detail(id=${listPelatihan[listPelatihan.size() - 1 - index].idPelatihan})}">Detail</a>
-                            </div>
+                <div th:if="${!listPelatihan.isEmpty()}" th:each="index : ${#numbers.sequence(0, listPelatihan.size() - 1)}" class="col">
+                <div class="col">
+                    <div class="card" th:class="${listPelatihan[listPelatihan.size() - 1 - index].statusApproval == 5} ? 'card card-done' : 'card card-available'">
+                        <img src="/images/LogoGernasSmall.png" class="card-img-top" alt="..." style="height: 400px;">
+                        <div class="card-body">
+                            <p><span th:text="${listPelatihan[listPelatihan.size() - 1 - index].tipe}" class="badge bg-success"></span> <span
+                                th:text="${listPelatihan[listPelatihan.size() - 1 - index].penyelenggaraan}" class="badge bg-warning"></span> </p>
+                            <h3 class="card-title" th:text="${listPelatihan[listPelatihan.size() - 1 - index].namaPelatihan}"></h3>
+                            <br>
+                            <p><img class="pelatihan-image" style="width: 9%; margin-right: 10px;" ; src="/images/calendar.png"
+                                alt="Gambar Pelatihan"> <span
+                                th:text="${#dates.format({listPelatihan[listPelatihan.size() - 1 - index].tanggal}, 'dd MMMM yyyy')}"></span> - <span
+                                th:text="${#dates.format({listPelatihan[listPelatihan.size() - 1 - index].tanggalAkhir}, 'dd MMMM yyyy')}"></span></p>
+                            <p><img class="pelatihan-image" style="width: 9%; margin-right: 10px;" ; src="/images/location.png"
+                                alt="Gambar Pelatihan"> <span th:text="${listPelatihan[listPelatihan.size() - 1 - index].tempat}"span></p>
+                        </div>
+                        <div class="d-flex justify-content-around mb-5">
+                            <a type="button" class="btn btn-primary" th:href="@{/pelatihan/detail(id=${listPelatihan[listPelatihan.size() - 1 - index].idPelatihan})}">Detail</a>
                         </div>
                     </div>
+                </div>
                 </div>    
             </div>
         </div>
