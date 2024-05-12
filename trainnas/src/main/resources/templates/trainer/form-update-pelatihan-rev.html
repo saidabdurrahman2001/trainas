@@ -177,7 +177,8 @@
             <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
                 <h3>Forum Memperbarui Pelatihan</h3>
                 <div class="card">
-                    <form th:action="@{/pelatihan/update(id=${pelatihan.idPelatihan})}" method="POST" class="form-card">
+                    <form th:action="@{/pelatihan/update(id=${pelatihan.idPelatihan})}" method="POST" class="form-card"
+                        onsubmit="return confirm('Apakah Anda yakin data yang diperbarui sudah benar?');">
                         <input class="form-control" type="hidden" name="id" th:value="${pelatihan.idPelatihan}">
 
                         <div class="row justify-content-between text-left">
@@ -272,8 +273,6 @@
                                     name="narahubung" placeholder="Nama - 081xxxxx">
                             </div>
                         </div>
-
-
                         <div class="row justify-content-end">
                             <div class="form-group col-sm-6">
                                 <button type="submit" class="btn-block btn-primary"

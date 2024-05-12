@@ -1,7 +1,7 @@
 package asik.propensik.trainnas.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalTime; 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +54,7 @@ public class PelatihanController {
         List<UserModel> allUsers = userService.getAllUsers();
         List<Pelatihan> listAllPelatihan = pelatihanService.getAllPelatihan();
         List<Pelatihan> listPelatihan = pelatihanService.getAllApprovedPelatihan();
+        System.out.println(listPelatihan);
 
         model.addAttribute("jumlahPengguna", allUsers.size());
         model.addAttribute("jumlahPelatihan", listPelatihan.size());
@@ -279,7 +280,6 @@ public class PelatihanController {
         System.out.println(listPendaftaran.get(0).getPelatihan().getPenyelenggaraan());
         System.out.println(listPendaftaran.get(0).getPelatihan().getTipe());
 
-
         return "trainee/daftarPelatihanSaya";
     }
 
@@ -292,7 +292,8 @@ public class PelatihanController {
 
         // Menghapus pendaftaran berdasarkan ID pendaftaran
         pendaftaranService.cancelPendaftaran(user, pelatihan);
-        return "redirect:/pelatihan/daftarPelatihanSaya";
+        return "trainee/success-batal-pendaftaran";
+        // return "redirect:/pelatihan/daftarPelatihanSaya";
     }
 
     @PostMapping("/pelatihan/reject")
@@ -440,8 +441,8 @@ public class PelatihanController {
     // return "redirect:/pelatihan/viewall-trainer";
     // }
 
-    @GetMapping("/pelatihan/delete")
-    public String deletePelatihan(@RequestParam("id") Long idPelatihan) {
+    @GetMapping("/pelatihan/delete/{id}")
+    public String deletePelatihan(@PathVariable("id") Long idPelatihan) {
         pelatihanService.deletePelatihanReq(idPelatihan);
         return "redirect:/pelatihan/viewall-trainer";
     }
@@ -449,7 +450,13 @@ public class PelatihanController {
     @PostMapping("/pelatihan/delete")
     public String deletePelatihan(@RequestParam("id") Long idPelatihan, Model model) {
         pelatihanService.deletePelatihan(idPelatihan);
-        return "redirect:/pelatihan/viewall-trainer";
+        return "trainer/success-delete-pelatihan";
+    }
+
+    @PostMapping("/pelatihan/delete/{id}")
+    public String deletePelatihanTrainer(@PathVariable("id") Long idPelatihan, Model model) {
+        pelatihanService.deletePelatihanReq(idPelatihan);
+        return "trainer/success-requestdelete-pelatihan";
     }
 
     @PostMapping("/pelatihan/done")

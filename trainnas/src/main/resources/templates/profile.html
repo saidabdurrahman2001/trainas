@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Profile</title>
    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
    <style>
       nav {
          margin-bottom: 20px;
       }
+
+      body {
+         font-family: 'Poppins', sans-serif;
+      }
    </style>
 </head>
+
 <body>
    <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
    <br><br><br>
@@ -45,7 +52,8 @@
                            <div class="col-12 mb-3">
                               <label class="form-label">Password</label>
                               <div class="input-group">
-                                 <input name="password" type="password" class="form-control" th:value="${user.password}" readonly>
+                                 <input name="password" type="password" class="form-control" th:value="${user.password}"
+                                    readonly>
                                  <span class="input-group-text bg-primary">
                                     <i class="bi bi-eye-slash-fill text-white"></i>
                                  </span>
@@ -56,7 +64,8 @@
                               <input name="role" type="text" class="form-control" th:value="${user.role}" readonly>
                            </div>
                            <div class="col-12 d-grid mt-3">
-                              <button class="btn btn-primary" type="submit" onclick="return confirmUpdate()">Update</button>
+                              <button class="btn btn-primary" type="submit"
+                                 onclick="return confirmUpdate()">Update</button>
                            </div>
                         </div>
                      </form>
@@ -68,8 +77,9 @@
    </div>
    <script>
       function confirmUpdate() {
-          return confirm("Are you sure you want to update this user?");
+         return confirm("Are you sure you want to update this user?");
       }
-  </script>
+   </script>
 </body>
+
 </html>

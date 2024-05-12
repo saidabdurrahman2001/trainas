@@ -25,6 +25,8 @@ import jakarta.persistence.TypedQuery;
 public class PendaftaranService {
     @Autowired
     PendaftaranDb pendaftaranDb;
+    @Autowired
+    PelatihanDb pelatihanDb;
 
     @Autowired
     PelatihanService pelatihanService;
@@ -90,6 +92,8 @@ public class PendaftaranService {
     public void cancelPendaftaran(UserModel user, Pelatihan pelatihan) {
         Pendaftaran pendaftaran = pendaftaranDb.findByUserAndPelatihan(user, pelatihan);
         pendaftaranDb.delete(pendaftaran);
+        pelatihan.setJumlahPendaftar(pelatihan.getJumlahPendaftar() - 1);
+        pelatihanDb.save(pelatihan);
     }
 
     // public List<Pendaftaran> searchPelatihanByAsalSekolahAndNama(String
