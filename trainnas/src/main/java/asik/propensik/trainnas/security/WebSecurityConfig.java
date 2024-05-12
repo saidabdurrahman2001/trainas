@@ -26,6 +26,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/dashboard-trainer")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/pelatihan/viewall")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
@@ -94,9 +96,6 @@ public class WebSecurityConfig {
                         .hasAnyAuthority("trainer", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/silabus/delete"))
                         .hasAnyAuthority("trainer", "admin")
-                        .requestMatchers(new AntPathRequestMatcher("/silabus/searchSilabus"))
-                        .hasAnyAuthority("trainer", "admin")
-                        
 
                         .anyRequest().authenticated())
                 .formLogin((form) -> form

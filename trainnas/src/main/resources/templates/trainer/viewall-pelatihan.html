@@ -36,11 +36,11 @@
         }
 
         .btn-available {
-        background-color: #087988;
-        /* Warna tosca */
-        color: #ffffff;
-        /* Warna teks putih */
-    }
+            background-color: #087988;
+            /* Warna tosca */
+            color: #ffffff;
+            /* Warna teks putih */
+        }
     </style>
 
 </head>
@@ -57,32 +57,37 @@
         <!-- Form untuk Pencarian Buku -->
         <form action="/pelatihan/searchTrainer" method="get" class="mb-3">
             <div class="input-group">
-                <input type="text" class="form-control" style="border-radius: 1.0rem;" placeholder="Cari pelatihan berdasarkan judul"
-                    name="searchQuery">
+                <input type="text" class="form-control" style="border-radius: 1.0rem;"
+                    placeholder="Cari pelatihan berdasarkan judul" name="searchQuery">
                 <div class="input-group-append" style="margin-left: 20px;">
-                    <button class="btn btn-md btn-available" type="submit" style="padding: 0.5rem 1.5rem; outline: none; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">Cari</button>
+                    <button class="btn btn-md btn-available" type="submit"
+                        style="padding: 0.5rem 1.5rem; outline: none; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">Cari</button>
                 </div>
-                
+
             </div>
         </form>
 
 
         <!-- Filter untuk tipe pelatihan -->
-			<form action="/pelatihan/filterPelatihanTrainer" method="get" id="filterForm" class="mb-3">
-				<div class="filter-condition" style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
-					<span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt" style="margin-right: 5px;"></i>Kategori Pelatihan</span>
-					<select name="sortType" id="sortType" style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
-						<option value="All">Semua</option>
-						<option value="Gernastastaka">Gernastastaka</option>
-						<option value="Gernastastaba">Gernastastaba</option>
-					</select>
-				</div>
-			</form>
+        <form action="/pelatihan/filterPelatihanTrainer" method="get" id="filterForm" class="mb-3">
+            <div class="filter-condition"
+                style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
+                <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
+                        style="margin-right: 5px;"></i>Kategori Pelatihan</span>
+                <select name="sortType" id="sortType"
+                    style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
+                    <option value="All">Semua</option>
+                    <option value="Gernastastaka">Gernastastaka</option>
+                    <option value="Gernastastaba">Gernastastaba</option>
+                </select>
+            </div>
+        </form>
 
 
         <div class="row row-cols-3">
             <!-- Iterasi dari indeks terakhir ke awal -->
-            <div th:if="${!listPelatihan.isEmpty()}" th:each="index : ${#numbers.sequence(0, listPelatihan.size() - 1)}" class="col mb-3">
+            <div th:if="${!listPelatihan.isEmpty()}" th:each="index : ${#numbers.sequence(0, listPelatihan.size() - 1)}"
+                class="col mb-3">
                 <!-- Mendapatkan indeks dari listPelatihan, dimulai dari ukuran list - 1 hingga 0 -->
                 <div class="card mb-3">
                     <div class="card-body">
@@ -100,7 +105,7 @@
                             </span>
                         </p>
                         <a type="button" class="btn btn-available"
-                            th:href="@{/pelatihan/detail-trainer(id=${listPelatihan[listPelatihan.size() - 1 - index].idPelatihan})}">Detail</a>
+                            th:href="@{/pelatihan/detail(id=${listPelatihan[listPelatihan.size() - 1 - index].idPelatihan})}">Detail</a>
                     </div>
                 </div>
             </div>
@@ -115,7 +120,7 @@
         </div>
 
         <script>
-            document.getElementById("sortType").addEventListener("change", function() {
+            document.getElementById("sortType").addEventListener("change", function () {
                 document.getElementById("filterForm").submit();
             });
         </script>

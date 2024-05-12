@@ -29,6 +29,9 @@
             border-radius: 10px;
             margin-right: 10px;
             margin-bottom: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
         }
 
         .right-panel {
@@ -100,6 +103,21 @@
             border-radius: 10px;
         }
 
+        .revisi {
+            width: 41%;
+            /* overflow-y: scroll; */
+            /* Lebar setengah dari container left-panel */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            margin-left: 265px;
+
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+        }
+
         .komentar {
             flex: 0 0 50%;
             /* Mengatur lebar komentar menjadi setengah dari lebar container */
@@ -118,7 +136,7 @@
         }
 
         .testimoni {
-            margin-left: 275px;
+            margin-left: 268px;
             /* Atur jarak kiri sesuai kebutuhan Anda */
             margin-right: 270px;
             /* Atur jarak kanan sesuai kebutuhan Anda */
@@ -131,6 +149,7 @@
             border-radius: 10px;
             /* Atur radius border sesuai kebutuhan Anda */
             padding: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
         }
 
@@ -173,8 +192,18 @@
             <div class="card">
                 <div class="card-content">
                     <h2 th:text="${pelatihan.namaPelatihan}">Nama Pelatihan</h2>
-                    <p><span th:text="${pelatihan.tipe}" class="badge bg-success"></span> <span
-                            th:text="${pelatihan.penyelenggaraan}" class="badge bg-warning"></span> </p>
+                    <p>
+                        <span th:text="${pelatihan.tipe}" class="badge bg-success"></span>
+                        <span th:text="${pelatihan.penyelenggaraan}" class="badge bg-warning"></span>
+                        <span th:switch="${pelatihan.statusApproval}" sec:authorize="!hasAuthority('trainee')">
+                            <span th:case="1" class="badge bg-warning">Requested</span>
+                            <span th:case="2" class="badge bg-success">Approved</span>
+                            <span th:case="3" class="badge bg-danger">Rejected</span>
+                            <span th:case="4" class="badge bg-warning">Requested Delete</span>
+                            <span th:case="5" class="badge bg-primary">Done</span>
+                            <span th:case="*" th:text="${pelatihan.statusApproval}"></span>
+                        </span>
+                    </p>
                     <p><img class="pelatihan-image" style="width: 9%; margin-right: 10px;" ; src="/images/calendar.png"
                             alt="Gambar Pelatihan"> <span
                             th:text="${#dates.format(pelatihan.tanggal, 'dd MMMM yyyy')}"></span> - <span
@@ -195,19 +224,40 @@
                     </p>
                 </div>
                 <div sec:authorize="hasAuthority('trainee')">
-                    <form th:action="@{'/pelatihan/daftar/' + ${pelatihan.idPelatihan}}" method="post">
-                        <button type="submit" class="btn-daftar" style="width: 100%; border: none;">Daftar
-                            Pelatihan</button>
-                    </form>
+                    <th:block th:if="${pelatihan.statusApproval == 5}">
+                        <p>Pelatihan Selesai</p>
+                    </th:block>
+                    <th:block th:unless="${pelatihan.statusApproval == 5}">
+                        <form th:if="${udahDaftar}" th:action="@{'/pelatihan/cancel/' + ${pelatihan.idPelatihan}}"
+                            method="post"
+                            onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pendaftaran?');">
+                            <button type="submit" class="btn-daftar"
+                                style="width: 100%; border: none; background-color: red;">
+                                Batalkan Pendaftaran
+                            </button>
+                        </form>
+                        <form th:unless="${udahDaftar}" th:action="@{'/pelatihan/daftar/' + ${pelatihan.idPelatihan}}"
+                            method="post">
+                            <button type="submit" class="btn-daftar"
+                                style="width: 100%; border: none; background-color: #087988;">
+                                Daftar Pelatihan
+                            </button>
+                        </form>
+                    </th:block>
                 </div>
-                <div sec:authorize="!hasAuthority('trainee')">
-                    <a th:href="@{'/pelatihan/update?id=' + ${pelatihan.idPelatihan}}" class="btn-daftar">Perbarui
+                <div sec:authorize="hasAnyAuthority('trainer', 'admin')">
+                    <a th:href="@{'/pelatihan/update?id=' + ${pelatihan.idPelatihan}}" class="btn-daftar"
+                        style="background-color: #087988;">Perbarui
                         Pelatihan</a>
                 </div>
                 <!-- <a th:if="${pelatihan.statusApproval == 2}" th:href="@{/pelatihan/daftar(id=${pelatihan.idPelatihan})}"
                     class="btn-daftar">Daftar Pelatihan</a> -->
             </div>
         </div>
+    </div>
+    <div class="revisi" th:if="${pelatihan.statusApproval == 3}">
+        <h4 style="color: red; font-weight: bold;">Komentar Revisi:</h4>
+        <p th:text="${pelatihan.komentar}"></p>
     </div>
     <div class="judulTestimoni">
         <label for="komentar" class="form-label">Daftar Testimoni</label>
@@ -226,6 +276,8 @@
                             </div>
                             <br>
                             <p class="card-text" th:text="${testimoni.komentar}"></p>
+
+
                         </div>
                     </div>
                 </div>
@@ -233,19 +285,17 @@
         </div>
     </div>
 
-
     <div class="komentar-container" sec:authorize="hasAuthority('trainee')">
-        <form th:action="@{'/testimoni/add/' + ${pelatihan.idPelatihan}}" method="post">
-            <div class="mb-3">
-                <label style="font-weight: bold;" for="komentar" class="form-label">Komentar</label>
-                <textarea class="form-control" id="komentar" name="komentar" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <th:block th:if="${pelatihan.statusApproval == 5 and udahDaftar}">
+            <form th:action="@{'/testimoni/add/' + ${pelatihan.idPelatihan}}" method="post">
+                <div class="mb-3">
+                    <label style="font-weight: bold;" for="komentar" class="form-label">Komentar</label>
+                    <textarea class="form-control" id="komentar" name="komentar" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </th:block>
     </div>
-
-
-
 
 </body>
 
