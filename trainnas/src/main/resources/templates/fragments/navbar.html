@@ -40,7 +40,7 @@
 						<ul class="dropdown-menu">
 							<li>
 								<a class="dropdown-item" href="/pelatihan/daftarPelatihanSaya"
-									sec:authorize="hasAnyAuthority('trainee')">Daftar Pelatihan Saya</a>
+									sec:authorize="hasAnyAuthority('trainee', 'admin')">Daftar Pelatihan Saya</a>
 							</li>
 							<li><a class="dropdown-item" href="/pelatihan/viewall"
 									sec:authorize="hasAnyAuthority('trainee','admin')">Daftar Pelatihan Trainas</a>
