@@ -38,11 +38,11 @@ public class TestimoniController {
 
     // @GetMapping("/listTestimoni")
     // public String listTestimoni(Model model) {
-    //     List<Testimoni> listTestimoni = testimoniService.getAllTestimoni();
-    //     model.addAttribute("listTestimoni", listTestimoni);
+    // List<Testimoni> listTestimoni = testimoniService.getAllTestimoni();
+    // model.addAttribute("listTestimoni", listTestimoni);
 
-    //     return "testimoni/listTestimoni";
-    // } 
+    // return "testimoni/listTestimoni";
+    // }
 
     @GetMapping("/listTestimoni-admin")
     public String listTestimoniAdmin(Model model) {
@@ -58,6 +58,12 @@ public class TestimoniController {
         listPelatihan = pelatihanService.searchPelatihanByJudul(searchQuery);
         model.addAttribute("listPelatihan", listPelatihan);
         return "testimoni/listTestimoni-admin";
+    }
+
+    @PostMapping("/hapusTestimoni/{id}")
+    public String hapusTestimoni(@PathVariable("id") Long id) {
+        testimoniService.deleteTestimoni(id);
+        return "success-delete-testimoni";
     }
 
     // @PostMapping("/add")
@@ -128,14 +134,14 @@ public class TestimoniController {
 
     // @GetMapping("/delete")
     // public String deleteTestimoni(@RequestParam("id") Long id) {
-    //     testimoniService.deleteTestimoni(id);
-    //     return "redirect:/testimoni/listTestimoni-admin";
+    // testimoniService.deleteTestimoni(id);
+    // return "redirect:/testimoni/listTestimoni-admin";
     // }
 
     // @PostMapping("/delete")
     // public String deleteTestimoni(@RequestParam("id") Long id) {
-    //     testimoniService.deleteTestimoni(id);
-    //     return "redirect:/testimoni/listTestimoni-admin";
+    // testimoniService.deleteTestimoni(id);
+    // return "redirect:/testimoni/listTestimoni-admin";
     // }
 
     @PostMapping("/delete/{id}")
@@ -143,7 +149,6 @@ public class TestimoniController {
         testimoniService.deleteTestimoni(id);
         return "redirect:/testimoni/listTestimoni-admin";
     }
-
 
     // @GetMapping("/searchTestimoni")
     // public String searchTestimoni(@RequestParam("searchQuery") String search,

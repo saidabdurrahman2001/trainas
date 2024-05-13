@@ -8,37 +8,49 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
     <title>Dashboard Trainee</title>
     <style>
         /* Styling untuk card */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
         .card {
             margin-top: 50px;
             border: none;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 30px; /* Increased padding for better spacing */
-            background: linear-gradient(to right, #ffffff, #f1f1f1); /* Gradient background */
+            padding: 30px;
+            /* Increased padding for better spacing */
+            background: linear-gradient(to right, #ffffff, #f1f1f1);
+            /* Gradient background */
         }
 
         .card h1 {
-            font-size: 2.5rem; /* Increased font size */
+            font-size: 2.5rem;
+            /* Increased font size */
             margin-bottom: 20px;
             color: #333;
             background-color: #f1f1f1;
             border-radius: 20px;
-            padding: 15px; /* Increased padding for the title */
+            padding: 15px;
+            /* Increased padding for the title */
         }
 
         .card p {
-            font-size: 1.2rem; /* Increased font size */
+            font-size: 1.2rem;
+            /* Increased font size */
             color: #666;
-            line-height: 1.5; /* Adjusted line height for better readability */
+            line-height: 1.5;
+            /* Adjusted line height for better readability */
         }
 
         .card img {
             max-width: 100px;
             margin-right: 20px;
-            border-radius: 50%; /* Rounded corners for images */
+            border-radius: 50%;
+            /* Rounded corners for images */
         }
 
         /* Container untuk baris kedua */
@@ -91,7 +103,8 @@
         /* Style the counter cards */
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            padding: 20px; /* Adjusted padding */
+            padding: 20px;
+            /* Adjusted padding */
             text-align: center;
             background-color: rgba(255, 255, 255, 0.8);
         }
@@ -138,7 +151,8 @@
         h1,
         h2,
         h5 {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Changed font family */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Changed font family */
             color: #333;
         }
     </style>
@@ -152,29 +166,29 @@
     <div class="clearfix row">
         <!-- Container pelatihan yang diikuti -->
         <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h1 class="card-title mb-0">Pelatihan yang Diikuti Oleh Trainee</h1>
-        <div class="text-end">
-            <a href="/pelatihan/viewall" class="btn btn-primary">Lihat Semua</a>
-        </div>
-    </div>
-    <div class="pelatihan-container">
-        <!-- Isi pelatihan di sini -->
-        <div th:each="pelatihan : ${listPelatihan}" class="pelatihan-card">
-            <div class="card">
-                <div class="card-body">
-                    <img src="/images/pelatihan.png" alt="Pelatihan" class="wide-image" width="100">
-                    <div>
-                        <h5 class="pelatihan-title card-title" th:text="${pelatihan.namaPelatihan}"></h5>
-                        <p class="card-text" th:text="${pelatihan.tipe}"></p>
-                        
-                        <br>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h1 class="card-title mb-0">Pelatihan yang Diikuti Oleh Trainee</h1>
+                <div class="text-end">
+                    <a href="/pelatihan/daftarPelatihanSaya" class="btn btn-primary">Lihat Semua</a>
+                </div>
+            </div>
+            <div class="pelatihan-container">
+                <!-- Isi pelatihan di sini -->
+                <div th:each="pelatihan : ${listPelatihan}" class="pelatihan-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="/images/pelatihan.png" alt="Pelatihan" class="wide-image" width="100">
+                            <div>
+                                <h5 class="pelatihan-title card-title" th:text="${pelatihan.namaPelatihan}"></h5>
+                                <p class="card-text" th:text="${pelatihan.tipe}"></p>
+
+                                <br>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 
     </div>
@@ -190,7 +204,7 @@
                     <div class="card">
                         <div class="card-body testimoni-content">
                             <!-- Gambar atau logo jika diperlukan -->
-                            <i class="fas fa-comment"></i> 
+                            <i class="fas fa-comment"></i>
                             <h5 class="card-title" th:text="${testimoni.komentar}"></h5>
                             <p class="card-text"><small class="text-muted"
                                     th:text="${#dates.format(testimoni.tanggal, 'dd-MM-yyyy')}"></small></p>

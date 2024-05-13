@@ -63,6 +63,13 @@
             /* border: 2px solid black; */
         }
 
+        .row-rekomendasi {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 800px;
+            margin: 20px auto;
+        }
+
         .download-info {
             text-align: right;
             /* Mengatur teks di kanan */
@@ -71,7 +78,7 @@
         .card-rekomendasi {
             /* text-align: center; */
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            height: 400px;
+            height: 350px;
 
         }
 
@@ -116,15 +123,20 @@
                         <!-- Judul -->
                         <!-- Tombol unduh -->
                         <a type="button" class="btn btn-md btn-primary"
-                            th:href="@{/silabus/download/{id}(id=${silabus.idSilabus})}" target="_blank">Download</a>
+                            th:href="@{/silabus/download/{id}(id=${silabus.idSilabus})}" target="_blank"
+                            style="background-color:  #087988;">Download</a>
                         <!-- Info download -->
                         <!-- <p class="download-info">Telah diunduh <span th:text="${silabus.downloadCount}"></span> kali</p> -->
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            Rekomendasi Buku Ajar Lainnya:
+        <div class="row-rekomendasi">
+            <span class="col-md-6">Rekomendasi Buku Ajar Lainnya:</span>
+            <span class="col-md-6 text-right">
+                <a href="/silabus/viewall" class="btn btn-primary"
+                    style="margin-left: 5px; background-color:  #087988;">Lihat Semua Bahan Ajar</a>
+            </span>
         </div>
         <div class="row">
             <div th:if="${!listSilabus.isEmpty()}" th:each="index : ${#numbers.sequence(0, listSilabus.size() - 1)}"
@@ -144,7 +156,8 @@
                             </div>
                             <div class="button-detail">
                                 <a type="button" class="btn btn-primary"
-                                    th:href="@{/silabus/detail(id=${listSilabus[listSilabus.size() - 1 - index].idSilabus})}">Detail</a>
+                                    th:href="@{/silabus/detail(id=${listSilabus[listSilabus.size() - 1 - index].idSilabus})}"
+                                    style="background-color:  #087988;">Detail</a>
                             </div>
                         </div>
                     </div>

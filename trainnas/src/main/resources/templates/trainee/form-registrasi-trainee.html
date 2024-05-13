@@ -1,87 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Registration Page</title>
-		<object th:include="~{fragments/common :: js}" th:remove="tag"></object>
-		<object th:include="~{fragments/common :: css}" th:remove="tag"></object>
-		<style>
-			.bg-image {
-				background-image: url("https://therichpost.com/wp-content/uploads/2021/02/login-split.jpg");
-				background-size: cover;
-				background-position: center;
-				height: 100vh;
-			}
-			.signup_section {
-				height: 100%;
-			}
-			.error {
-				color: #dc3545;
-			}
-			.btn-primary {
-				border-radius: 20px;
-				padding: 10px 30px;
-			}
-			.btn-outline-primary {
-				border-radius: 20px;
-				padding: 10px 30px;
-				border-color: #007bff;
-				color: #007bff;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container-fluid">
-			<div class="row no-gutters">
-				<div class="col-md-7 d-none d-md-flex bg-image"></div>
 
-				<div class="col-md-5 bg-light">
-					<div class="signup_section d-flex align-items-center p-5">
-						<div class="container">
-							<div class="row">
-								<form th:action="@{/trainee/add}" th:object="${user}" method="POST">
-									<h1 class="mb-4">Sign Up</h1>
-									<!-- <div class="error mb-3" id="mail-error">
+<head>
+	<meta charset="UTF-8" />
+	<title>Registration Page</title>
+	<object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+	<object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+	<style>
+		body {
+			font-family: 'Poppins', sans-serif;
+		}
+
+		.bg-image {
+			background-image: url("https://therichpost.com/wp-content/uploads/2021/02/login-split.jpg");
+			background-size: cover;
+			background-position: center;
+			height: 100vh;
+		}
+
+		.signup_section {
+			height: 100%;
+		}
+
+		.error {
+			color: #dc3545;
+		}
+
+		.btn-primary {
+			border-radius: 20px;
+			padding: 10px 30px;
+		}
+
+		.btn-outline-primary {
+			border-radius: 20px;
+			padding: 10px 30px;
+			border-color: #007bff;
+			color: #007bff;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row no-gutters">
+			<div class="col-md-7 d-none d-md-flex bg-image"></div>
+
+			<div class="col-md-5 bg-light">
+				<div class="signup_section d-flex align-items-center p-5">
+					<div class="container">
+						<div class="row">
+							<form th:action="@{/trainee/add}" th:object="${user}" method="POST">
+								<h1 class="mb-4">Sign Up</h1>
+								<!-- <div class="error mb-3" id="mail-error">
                                         <img src="images/icon_error.svg" alt="error_icon" class="mr-2" />
                                         Incorrect Username
                                     </div> -->
-									<div class="form-group mb-3">
-										<input
-											type="text"
-											class="form-control rounded-pill border-0 shadow-sm px-4"
-											id="nama"
-											placeholder="Nama"
-											th:field="*{name}"
-											required />
-									</div>
-									<div class="form-group mb-3">
-										<input
-											type="text"
-											class="form-control rounded-pill border-0 shadow-sm px-4"
-											id="nama"
-											placeholder="Username"
-											th:field="*{username}"
-											required />
-									</div>
-									<div class="form-group mb-3">
-										<input
-											type="email"
-											class="form-control rounded-pill border-0 shadow-sm px-4"
-											id="mail"
-											placeholder="Email"
-											th:field="*{email}"
-											required />
-									</div>
-									<div class="form-group mb-3">
-										<input
-											type="text"
-											class="form-control rounded-pill border-0 shadow-sm px-4"
-											id="asalSekolah"
-											placeholder="Asal Sekolah"
-											th:field="*{asalSekolah}"
-											required />
-									</div>
-									<!-- <div class="form-group mb-3">
+								<div class="form-group mb-3">
+									<input type="text" class="form-control rounded-pill border-0 shadow-sm px-4"
+										id="nama" placeholder="Nama" th:field="*{name}" required />
+								</div>
+								<div class="form-group mb-3">
+									<input type="text" class="form-control rounded-pill border-0 shadow-sm px-4"
+										id="nama" placeholder="Username" th:field="*{username}" required />
+								</div>
+								<div class="form-group mb-3">
+									<input type="email" class="form-control rounded-pill border-0 shadow-sm px-4"
+										id="mail" placeholder="Email" th:field="*{email}" required />
+								</div>
+								<div class="form-group mb-3">
+									<input type="text" class="form-control rounded-pill border-0 shadow-sm px-4"
+										id="asalSekolah" placeholder="Asal Sekolah" th:field="*{asalSekolah}"
+										required />
+								</div>
+								<!-- <div class="form-group mb-3">
 										<input
 											type="tel"
 											class="form-control rounded-pill border-0 shadow-sm px-4"
@@ -89,16 +81,11 @@
 											placeholder="Nomor Telepon"
 											required />
 									</div> -->
-									<div class="form-group mb-3">
-										<input
-											type="password"
-											class="form-control rounded-pill border-0 shadow-sm px-4"
-											id="password"
-											placeholder="Password"
-											th:field="*{password}"
-											required />
-									</div>
-									<!-- <div class="form-group mb-3">
+								<div class="form-group mb-3">
+									<input type="password" class="form-control rounded-pill border-0 shadow-sm px-4"
+										id="password" placeholder="Password" th:field="*{password}" required />
+								</div>
+								<!-- <div class="form-group mb-3">
 										<input
 											type="password"
 											class="form-control rounded-pill border-0 shadow-sm px-4"
@@ -106,7 +93,7 @@
 											placeholder="Re-enter password"
 											required />
 									</div> -->
-									<!-- <div class="form-group form-check mb-3">
+								<!-- <div class="form-group form-check mb-3">
 										<input type="checkbox" class="form-check-input" id="login_check" />
 										<label class="form-check-label" for="login_check"
 											>Receive our weekly newsletter and other occasional updates</label
@@ -115,8 +102,7 @@
 									<button type="submit" class="btn btn-primary mr-3">SIGN UP</button>
 									<!-- <button type="submit" class="btn btn-outline-primary">LOG IN</button> -->
 									<p class="small mt-3">
-										By signing up, you agree to our <a href="#">terms of use</a>,
-										<a href="#">privacy policy</a>, and <a href="#">cookie policy</a>.
+										Already have an account? <a href="/login">Login</a>,
 									</p>
 								</form>
 							</div>
@@ -125,5 +111,10 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			function confirmRegistration() {
+			  return confirm("Data User sudah benar?");
+			}
+		</script>
 	</body>
 </html>
