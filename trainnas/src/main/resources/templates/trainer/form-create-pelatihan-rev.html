@@ -92,84 +92,12 @@
             box-shadow: none !important;
             outline-width: 0;
         }
-
-        .container-fluid {
-            padding-top: 100px;
-            /* Tambahkan padding atas yang cukup untuk menjaga konten di bawah navbar */
-        }
-
-        nav {
-            padding: 0 40px;
-            height: 80px;
-            background-color: #2866c4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #e3e3e3;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            /* Tambahkan z-index untuk memastikan navbar selalu di atas */
-        }
-
-        #nav-left {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 90px;
-        }
-
-        #nav-items {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 30px;
-        }
-
-        #logo_gernas {
-            width: 50px;
-            height: 50px;
-        }
-
-        #logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-        }
     </style>
 </head>
 
 <body className='snippet-body'>
-    <nav>
-        <div id="nav-left">
-            <div id="logo">
-                <img id="logo_gernas" src="/images/logo_gernas2.png">
-
-                <!-- <p>TRAINNAS</p> -->
-                <div class="menu-item" id="daftar-pelatihan">
-                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">TRAINNAS</span>
-                </div>
-            </div>
-            <div id="nav-items">
-                <div class="menu-item" id="daftar-pelatihan">
-                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Dashboard</span>
-                </div>
-                <div class="menu-item" id="daftar-pelatihan">
-                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Daftar Pelatihan</span>
-                </div>
-                <div class="menu-item" id="daftar-bahan-ajar">
-                    <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Daftar Bahan Ajar</span>
-                </div>
-            </div>
-        </div>
-        <div id="nav-right">
-            <div class="menu-item" id="daftar-pelatihan">
-                <span class="font-poppins-bold text-white mr-1" style="cursor: pointer;">Login/Buat Akun</span>
-            </div>
-        </div>
-    </nav>
-
+    <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
+    <br><br>
     <div class="container-fluid px-1 py-5 mx-auto">
         <div class="row d-flex justify-content-center">
             <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
