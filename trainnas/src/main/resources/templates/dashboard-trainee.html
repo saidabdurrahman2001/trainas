@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>Dashboard Trainee</title>
@@ -15,25 +16,29 @@
             border: none;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            background-color: #fff;
+            padding: 30px; /* Increased padding for better spacing */
+            background: linear-gradient(to right, #ffffff, #f1f1f1); /* Gradient background */
         }
 
         .card h1 {
-            font-size: 2rem;
+            font-size: 2.5rem; /* Increased font size */
             margin-bottom: 20px;
             color: #333;
+            background-color: #f1f1f1;
+            border-radius: 20px;
+            padding: 15px; /* Increased padding for the title */
         }
 
         .card p {
-            font-size: 1.1rem;
+            font-size: 1.2rem; /* Increased font size */
             color: #666;
+            line-height: 1.5; /* Adjusted line height for better readability */
         }
 
         .card img {
             max-width: 100px;
             margin-right: 20px;
-            /* border-radius: 50%; */
+            border-radius: 50%; /* Rounded corners for images */
         }
 
         /* Container untuk baris kedua */
@@ -86,9 +91,9 @@
         /* Style the counter cards */
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            padding: 16px;
+            padding: 20px; /* Adjusted padding */
             text-align: center;
-            background-color: #f1f1f1;
+            background-color: rgba(255, 255, 255, 0.8);
         }
 
         /* Grid layout for pelatihan cards */
@@ -121,55 +126,71 @@
             /* Atur lebar sesuai kebutuhan */
             margin-right: 20px;
         }
+
+        /* Custom styling for icons */
+        .icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        /* Custom styling for headings */
+        h1,
+        h2,
+        h5 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Changed font family */
+            color: #333;
+        }
     </style>
 </head>
 
-<body>
+<body th:with="totalPelatihan=${#lists.size(listPelatihan)}, totalTestimoni=${#lists.size(listTestimoni)}">
+
     <nav th:replace="~{fragments/navbar :: navbar('user')}"></nav>
 
     <!-- Baris pertama -->
     <div class="clearfix row">
         <!-- Container pelatihan yang diikuti -->
         <div class="card">
-            <h1 class="card-title">Pelatihan yang Diikuti Oleh Trainee</h1>
-            <div class="pelatihan-container">
-                <!-- Isi pelatihan di sini -->
-                <div th:each="pelatihan : ${listPelatihan}" class="pelatihan-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <img src="/images/pelatihan.png" alt="Pelatihan" class="wide-image" width="100">
-                            <div>
-                                <h5 class="pelatihan-title card-title" th:text="${pelatihan.namaPelatihan}"></h5>
-                                <p class="card-text" th:text="${pelatihan.tipe}"></p>
-                                <!-- <p class="card-text">
-                                    <span th:if="${pelatihan.status == 2}">Berjalan</span>
-                                    <span th:if="${pelatihan.status != 2}">Selesai</span>
-                                </p> -->
-                                <!-- Menggunakan Thymeleaf untuk memformat tanggal -->
-                                <!-- <p class="card-text" th:text="${pelatihan.tanggal}"></p>
-                                 -->
-                                <br>
-                            </div>
-                        </div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="card-title mb-0">Pelatihan yang Diikuti Oleh Trainee</h1>
+        <div class="text-end">
+            <a href="/pelatihan/viewall" class="btn btn-primary">Lihat Semua</a>
+        </div>
+    </div>
+    <div class="pelatihan-container">
+        <!-- Isi pelatihan di sini -->
+        <div th:each="pelatihan : ${listPelatihan}" class="pelatihan-card">
+            <div class="card">
+                <div class="card-body">
+                    <img src="/images/pelatihan.png" alt="Pelatihan" class="wide-image" width="100">
+                    <div>
+                        <h5 class="pelatihan-title card-title" th:text="${pelatihan.namaPelatihan}"></h5>
+                        <p class="card-text" th:text="${pelatihan.tipe}"></p>
+                        
+                        <br>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
+    </div>
 
     <!-- Baris kedua -->
     <div class="clearfix row">
         <!-- Container testimoni -->
         <div class="card testimoni">
-            <h1>Testimoni Tes</h1>
+            <h1>Testimoni</h1>
             <div class="testimoni-container">
                 <!-- Isi testimoni di sini -->
                 <div th:each="testimoni : ${listTestimoni}" class="testimoni-card">
                     <div class="card">
                         <div class="card-body testimoni-content">
                             <!-- Gambar atau logo jika diperlukan -->
+                            <i class="fas fa-comment"></i> 
                             <h5 class="card-title" th:text="${testimoni.komentar}"></h5>
                             <p class="card-text"><small class="text-muted"
                                     th:text="${#dates.format(testimoni.tanggal, 'dd-MM-yyyy')}"></small></p>
@@ -181,22 +202,18 @@
 
         <!-- Container user -->
         <div class="card user">
-            <h1><img src="path_to_your_image" alt="Image" /> User</h1>
+            <h1 th:text="${user}"><i class="fas fa-user-circle"></i></h1>
             <div class="row">
                 <div class="col text-center">
-                    <h2>5</h2>
-                    <p>Aktivitas</p>
+                    <i class="fas fa-book icon"></i> <!-- Added custom icon styling -->
+                    <h2 th:text="${totalPelatihan}"></h2>
+                    <p>Pelatihan</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <h2>8</h2>
-                    <p>Sertifikat</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col text-center">
-                    <h2>12</h2>
+                    <i class="fas fa-comment icon"></i> <!-- Added custom icon styling -->
+                    <h2 th:text="${totalTestimoni}"></h2>
                     <p>Testimoni Diberikan</p>
                 </div>
             </div>

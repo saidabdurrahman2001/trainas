@@ -43,7 +43,7 @@ public class SilabusService {
 
     private static String getPathToGoolgeCredentials() {
         String currentDir = System.getProperty("user.dir");
-        Path filePath = Paths.get(currentDir, "/trainnas/src/main/resources/cred.json");
+        Path filePath = Paths.get(currentDir, "cred.json");
         return filePath.toString();
     }
 
@@ -171,6 +171,12 @@ public class SilabusService {
     public boolean isDescriptionExists(String deskripsi) {
         List<Silabus> existingSilabus = silabusDb.findByDeskripsiContainingIgnoreCase(deskripsi);
         return !existingSilabus.isEmpty();
+    }
+
+    public void increaseDiunduh(Long id) {
+        Silabus silabus = this.getSilabusById(id);
+        silabus.setDiunduh(silabus.getDiunduh() + 1);
+        silabusDb.save(silabus);
     }
 
 }
