@@ -223,6 +223,25 @@ public class SilabusController {
         return "trainee/trainee-viewall-silabus-rev";
     }
 
+    @GetMapping("/searchSilabusTrainer")
+    public String searchSilabusTrainer(@RequestParam(value = "searchQuery", required = false) String search,
+            @RequestParam(value = "tingkatan", required = false) String tingkatan,
+            Model model) {
+
+        List<Silabus> listSilabus;
+        if ((search == null || search.isEmpty()) && (tingkatan == null || tingkatan.isEmpty())) {
+            listSilabus = silabusService.getAllSilabus();
+        } else if (tingkatan == null || tingkatan.isEmpty()) {
+            listSilabus = silabusService.searchSilabus(search);
+        } else if (search == null || search.isEmpty()) {
+            listSilabus = silabusService.searchSilabusByTingkatan(tingkatan);
+        } else {
+            listSilabus = silabusService.searchSilabusByQueryAndTingkatan(search, tingkatan);
+        }
+        model.addAttribute("listSilabus", listSilabus);
+        return "trainer/viewall-silabus";
+    }
+
     @GetMapping("/filterSearchSilabus")
     public String sortSilabus(@RequestParam(value = "sortType", required = false) String search, Model model) {
 
@@ -242,6 +261,27 @@ public class SilabusController {
 
         model.addAttribute("listSilabus", listSilabus);
         return "trainee/trainee-viewall-silabus-rev";
+    }
+
+    @GetMapping("/filterSearchSilabusTrainer")
+    public String sortSilabusTrainer(@RequestParam(value = "sortType", required = false) String search, Model model) {
+
+        List<Silabus> listSilabus;
+
+        if (search == "ALL" || search.equals("ALL")) {
+            listSilabus = silabusService.getAllSilabus();
+        } else if (search == "SD" || search.equals("SD")) {
+            listSilabus = silabusService.searchSilabusByTingkatan("SD");
+        } else if (search == "SMP" || search.equals("SMP")) {
+            listSilabus = silabusService.searchSilabusByTingkatan("SMP");
+        } else if (search == "SMA" || search.equals("SMA")) {
+            listSilabus = silabusService.searchSilabusByTingkatan("SMA");
+        } else {
+            listSilabus = silabusService.getAllSilabus();
+        }
+
+        model.addAttribute("listSilabus", listSilabus);
+        return "trainer/viewall-silabus";
     }
 
     @GetMapping("/download/{id}")

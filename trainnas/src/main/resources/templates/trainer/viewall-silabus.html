@@ -74,7 +74,7 @@
         </div>
 
         <!-- Form untuk Pencarian Buku -->
-        <form action="/silabus/searchSilabus" method="get" class="mb-3">
+        <form action="/silabus/searchSilabusTrainer" method="get" class="mb-3">
             <div class="input-group">
                 <input type="text" class="form-control" style="border-radius: 1.0rem;"
                     placeholder="Cari pelatihan berdasarkan judul" name="searchQuery">
@@ -87,7 +87,7 @@
         </form>
 
         <!-- Filter untuk tipe pelatihan -->
-        <form action="/silabus/filterSearchSilabus" method="get" id="filterForm">
+        <form action="/silabus/filterSearchSilabusTrainer" method="get" id="filterForm">
             <div class="filter-condition"
                 style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
                 <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
@@ -99,6 +99,9 @@
                     <option value="SMP">SMP</option>
                     <option value="SMA">SMA</option>
                 </select>
+                <button type="button" class="btn btn-success ml-2" onclick="redirectToTambahPelatihan()"
+                    style="margin-left: 5px; margin-bottom: 3px; background-color: #087988;">Tambah
+                    Silabus</button>
             </div>
         </form>
 
@@ -122,7 +125,8 @@
                             </div>
                             <div class="d-flex justify-content-around mb-5">
                                 <a type="button" class="btn btn-primary"
-                                    th:href="@{/silabus/detail(id=${listSilabus[listSilabus.size() - 1 - index].idSilabus})}">Detail</a>
+                                    th:href="@{/silabus/detail(id=${listSilabus[listSilabus.size() - 1 - index].idSilabus})}"
+                                    style="background-color: #087988;">Detail</a>
                             </div>
                         </div>
                     </div>
@@ -133,6 +137,10 @@
             document.getElementById("sortType").addEventListener("change", function () {
                 document.getElementById("filterForm").submit();
             });
+
+            function redirectToTambahPelatihan() {
+                window.location.href = '/silabus/tambah';
+            }
         </script>
 </body>
 
