@@ -41,9 +41,6 @@
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 		}
 
-		.card-done {
-			background-color: #6c767e;
-		}
 
 		/* Tambahkan margin di sekitar judul dan tombol */
 		.card-body .card-title {
@@ -118,7 +115,13 @@
 								<p><span th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.tipe}"
 										class="badge bg-success"></span> <span
 										th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.penyelenggaraan}"
-										class="badge bg-warning"></span> </p>
+										class="badge bg-warning"></span>
+
+									<span
+										th:if="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.statusApproval} == 5">
+										<span class="badge bg-primary">Done</span>
+									</span>
+								</p>
 								<h3 class="card-title"
 									th:text="${listPendaftaran[listPendaftaran.size() - 1 - index].pelatihan?.namaPelatihan}">
 								</h3>
