@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import asik.propensik.trainnas.model.Role;
 // import asik.propensik.trainnas.dto.request.CreateUserRequestDTO;
@@ -67,6 +69,56 @@ public class UserController {
         UserModel user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("user", user);
         return "profile";
+    }
+
+    // @GetMapping("/profile/{username}")
+    // public String profilUserbyUsername(Model model, @PathVariable("username") String username){
+    //     UserModel user = userService.findByUsername(username);
+    //     model.addAttribute("user", user);
+    //     return "profile";
+    // }
+
+    // @GetMapping("/delete/user/{username}")
+    // public String hapusUser(@PathVariable("username") String username) {
+    //     userService.deleteUser(username);
+    //     return "user-list";
+    // }
+
+    @PostMapping("/delete/user/{username}")
+    public String hapusUser(@PathVariable("username") String username) {
+        userService.deleteUser(username);
+        return "user-list";
+    }
+
+    @GetMapping("/profile/update/{username}")
+    public String profileUpdate(Model model, @PathVariable("username") String username){
+        UserModel user = userService.findByUsername(username);
+        model.addAttribute("user", user);
+        return "profile-update";
+    }
+
+    @PostMapping("/profile/update/{username}")
+    public String profileUpdate(Model model,
+            @PathVariable("username") String username,
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("asalSekolah") String asalSekolah){
+
+        UserModel userData = userService.findByUsername(username);
+        userData.setName(name);
+        userData.setEmail(email);
+        userData.setAsalSekolah(asalSekolah);
+        userService.addUser(userData);
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/user/list")
+    public String listUser(Model model) {
+
+        List<UserModel> listUser = userService.getAllUser();
+
+        model.addAttribute("listUser", listUser);
+        return "user-list";
     }
 
 

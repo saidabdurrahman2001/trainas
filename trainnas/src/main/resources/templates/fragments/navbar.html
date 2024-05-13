@@ -65,12 +65,12 @@
 							sec:authorize="hasAnyAuthority('trainee')"
 							href="/silabus/viewall">Daftar Bahan Ajar</a>
 
-					</li>
+					<!-- </li>
 					<li class="nav-item">
 						<a class="nav-link fw-bold font-poppins-bold text-white mr-1" aria-current="page"
-							sec:authorize="hasAnyAuthority('admin')" href="/">
+							sec:authorize="hasAnyAuthority('admin,'trainer','trainee')" href="/">
 							Testimoni</a>
-					</li>
+					</li> -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle fw-bold font-poppins-bold text-white mr-1" href="#"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false"
@@ -78,7 +78,7 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="/user/add" sec:authorize="hasAuthority('admin')">Tambah
 									User</a></li>
-							<li><a class="dropdown-item" href="/users" sec:authorize="hasAuthority('admin')">List
+							<li><a class="dropdown-item" href="/user/list" sec:authorize="hasAuthority('admin')">List
 									Users</a></li>
 						</ul>
 					</li>
@@ -91,7 +91,7 @@
 					</div>
 					<div sec:authorize="isAuthenticated()">
 						<a href="/profile" class="btn btn-outline-info me-2 text-white" th:text="'Profile '+${#authentication.principal.username}">Profile</a>
-						<a href="/logout" class="btn btn-outline-danger text-white">Logout</a>
+						<!-- <a href="/logout" class="btn btn-outline-danger text-white">Logout</a> -->
 					</div>
 					<!-- <div sec:authorize="isAuthenticated()">
 						<a class="fw-bold font-poppins-bold text-white me-2"

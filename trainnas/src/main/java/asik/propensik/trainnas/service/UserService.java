@@ -12,6 +12,8 @@ public interface UserService {
     public List<PelatihanTrainee> listPelatihan();
     public List<Testimoni> getAllTestimoniByLoggedInUser();
     public UserModel findByUsername(String username);
+    public List<UserModel> getAllUser();
+    public void deleteUser(String username);
 }
 
 

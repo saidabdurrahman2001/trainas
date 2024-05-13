@@ -99,6 +99,10 @@ public class WebSecurityConfig {
                         .hasAnyAuthority("trainer", "admin")
                         .requestMatchers(new AntPathRequestMatcher("/silabus/searchSilabus"))
                         .hasAnyAuthority("trainer", "admin","trainee","trainermanager")
+                        .requestMatchers(new AntPathRequestMatcher("/delete/user/{username}"))
+                        .hasAuthority("admin")
+                        .requestMatchers(new AntPathRequestMatcher("/profile/update/{username}"))
+                        .hasAuthority("admin")
                         
 
                         .anyRequest().authenticated())

@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
     <title>Dashboard Trainer</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
     <!-- Load Google Charts -->
     <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -257,12 +263,15 @@
             /* Tambahkan ruang di dalam kotak */
             box-sizing: border-box;
             /* Pastikan padding tidak meningkatkan lebar kotak */
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Menambahkan efek bayangan */
-            transition: transform 0.3s ease; /* Menambahkan efek transisi */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            /* Menambahkan efek bayangan */
+            transition: transform 0.3s ease;
+            /* Menambahkan efek transisi */
         }
 
         .chart-container:hover {
-            transform: scale(1.05); /* Memberikan efek scaling saat mouse hover */
+            transform: scale(1.05);
+            /* Memberikan efek scaling saat mouse hover */
         }
 
         body {
@@ -282,7 +291,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .container-fluid{
+        .container-fluid {
             width: 90%;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -365,7 +374,7 @@
         <div class="text-center pt-5">
             <h2>Training History</h2>
         </div>
-        
+
         <table class="table table-striped mt-4" id="tablePelatihan">
             <thead>
                 <tr>
@@ -400,10 +409,10 @@
 
     <script>
         $(document).ready(function () {
-        $('#tablePelatihan').DataTable({
-            "lengthMenu": [5, 10, 20]
+            $('#tablePelatihan').DataTable({
+                "lengthMenu": [5, 10, 20]
+            });
         });
-    });
 
     </script>
 

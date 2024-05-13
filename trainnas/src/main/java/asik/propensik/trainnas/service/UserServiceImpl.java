@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         return pelatihanTraineeDb.findAll();
     }
 
-    public List<UserModel> getAllUsers() {
+    public List<UserModel> getAllUser() {
         return userDb.findAll();
     }
 
@@ -53,6 +53,11 @@ public class UserServiceImpl implements UserService {
 
     public UserModel getUserByEmail(String email) {
         return userDb.findByEmail(email);
+    }
+
+    public void deleteUser(String username){
+        UserModel delUser = findByUsername(username);
+        userDb.delete(delUser);
     }
 
     // public void updateUser(Long id, String role) {

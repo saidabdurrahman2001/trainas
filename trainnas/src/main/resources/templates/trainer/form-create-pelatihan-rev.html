@@ -33,6 +33,7 @@
             background-image: url("");
             background-repeat: repeat;
             background-size: 100% 100%;
+            font-family: 'Poppins', sans-serif;
         }
 
         .card {
@@ -177,7 +178,8 @@
             <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
                 <h3>Forum Menambahkan Pelatihan</h3>
                 <div class="card">
-                    <form th:action="@{/pelatihan/add}" class="form-card" method="POST">
+                    <form th:action="@{/pelatihan/add}" class="form-card" method="POST"
+                        onsubmit="return confirm('Apakah Anda yakin data pelatihan ini sudah benar?');">
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <label class="form-control-label px-3">Nama Pelatihan<span class="text-danger">
