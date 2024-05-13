@@ -146,7 +146,7 @@ public class PelatihanController {
 
     @GetMapping("pelatihan/viewall-trainer")
     public String listLatihanTrainer(Model model) {
-
+        System.out.println("masuk viewall trainer");
         List<Pelatihan> listPelatihan = pelatihanService.getAllPelatihan();
 
         model.addAttribute("listPelatihan", listPelatihan);

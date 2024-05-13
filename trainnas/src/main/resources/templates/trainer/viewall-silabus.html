@@ -1,103 +1,139 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
 
 <head>
     <meta charset="UTF-8" />
     <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <title>Lihat Semua Bahan Ajar</title>
+
     <!-- Inline CSS -->
-    <title>Daftar Silabus</title>
     <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-        .card-available {
-            background-color: #ffffff;
-            /* Warna putih */
+        .card-img-top {
+            border-radius: 50px;
+            padding: 20px;
         }
 
-        .card-done {
-            background-color: #6C767E;
-            /* Warna abu-abu */
+        .card {
+            height: 400px;
+            width: 400px;
+            overflow-y: scroll;
+            border-radius: 30px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
         }
 
-        .btn-available {
-            background-color: #087988;
-            /* Warna tosca */
-            color: #ffffff;
-            /* Warna teks putih */
+        .card-body {
+            padding: 25px;
+            margin-top: -25px;
         }
 
-        .btn-done {
-            background-color: #e9ecef;
-            /* Warna abu-abu muda */
-            color: #000;
-            /* Warna teks hitam */
+        .btn-primary {
+            border-radius: 50px;
+            width: 120px;
         }
 
-        /* Float buttons */
-        .floating-buttons {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
+        .btn-primary:hover {
+            background-color: black;
+        }
+
+        .bg-danger {
+            background-color: red;
+            /* Merah untuk badge "PDF" */
+        }
+
+        .bg-secondary {
+            background-color: gray;
+            /* Abu untuk nilai tingkatan */
+        }
+
+        .container {
+            margin-top: -50px;
         }
     </style>
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar :: navbar('silabus')}"></nav>
-    <br><br><br>
+    <nav th:replace="~{fragments/navbar :: navbar('pelatihan')}"></nav>
+    <br><br><br><br>
     <div class="container">
-        <div class="text-center pt-5">
-            <h2>Daftar Bahan Ajar</h2>
+        <div class="text-center pt-5" style="margin-bottom: 50px; font-weight: bold;">
+            <h2>Bahan Ajar yang Tersedia</h2>
         </div>
+
+        <!-- Form untuk Pencarian Buku -->
         <form action="/silabus/searchSilabus" method="get" class="mb-3">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Cari bahan ajar berdasarkan nama"
-                    name="searchQuery">
-                <select class="form-select" name="tingkatan">
-                    <option value="">Pilih Tingkatan</option>
-                    <option value="SD">SD</option>
-                    <option value="SMP">SMP</option>
-                    <option value="SMA/SMK">SMA/SMK</option>
-                </select>
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Cari</button>
+                <input type="text" class="form-control" style="border-radius: 1.0rem;"
+                    placeholder="Cari pelatihan berdasarkan judul" name="searchQuery">
+                <div class="input-group-append" style="margin-left: 20px;">
+                    <button class="btn btn-md btn-available" type="submit"
+                        style="padding: 0.5rem 1.5rem; outline: none; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">Cari</button>
                 </div>
+
             </div>
         </form>
-        <div class="row row-cols-4">
-            <div th:if="${!listSilabus.isEmpty()}" th:each="silabus : ${listSilabus}" class="col">
-                <div class="card mb-3">
-                    <img src="https://drive.google.com/thumbnail?id=1V6ghr8jGlkbxBMPVBOv8HPbJI6UdB4uu">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${silabus.deskripsi}"></h5>
-                        <br>
-                        <h5 class="card-title" th:text="${silabus.tingkatan}"></h5>
-                        <br>
-                        <!-- <a type="button" class="btn btn-md btn-primary" th:href="@{${silabus.filePath}}"
-                            target="_blank">Download</a> -->
-                        <a type="button" class="btn btn-md btn-primary"
-                            th:href="@{/silabus/detail-trainer(id=${silabus.idSilabus})}">Detail</a>
+
+        <!-- Filter untuk tipe pelatihan -->
+        <form action="/silabus/filterSearchSilabus" method="get" id="filterForm">
+            <div class="filter-condition"
+                style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
+                <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
+                        style="margin-right: 5px;"></i>Kategori Bahan Ajar</span>
+                <select name="sortType" id="sortType"
+                    style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
+                    <option value="All">Semua</option>
+                    <option value="SD">SD</option>
+                    <option value="SMP">SMP</option>
+                    <option value="SMA">SMA</option>
+                </select>
+            </div>
+        </form>
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+                <div th:if="${!listSilabus.isEmpty()}" th:each="index : ${#numbers.sequence(0, listSilabus.size() - 1)}"
+                    class="col">
+                    <div class="col">
+                        <div class="card">
+                            <img src="/images/bahan_ajar.png" class="card-img-top" alt="..." style="height: 200px; ">
+                            <div class="card-body">
+                                <h6>
+                                    <span class="badge bg-danger" style="padding: 0.5rem 1rem;"> PDF </span>
+                                    <span th:text="${listSilabus[listSilabus.size() - 1 - index].tingkatan}"
+                                        class="badge bg-secondary" style="padding: 0.5rem 1rem;"></span>
+                                </h6>
+
+                                <h5 class="card-title"
+                                    th:text="${listSilabus[listSilabus.size() - 1 - index].deskripsi}">
+                                </h5>
+                            </div>
+                            <div class="d-flex justify-content-around mb-5">
+                                <a type="button" class="btn btn-primary"
+                                    th:href="@{/silabus/detail(id=${listSilabus[listSilabus.size() - 1 - index].idSilabus})}">Detail</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div th:if="${listSilabus.isEmpty()}" class="col">
-                <p>Tidak ada bahan ajar yang tersedia saat ini.</p>
-            </div>
         </div>
-        <div class="floating-buttons">
-            <a type="button" class="btn btn-primary m-2" href="/silabus/tambah">Tambah Bahan Ajar</a>
-            <a type="button" class="btn btn-md btn-primary" href="/">Home</a>
-        </div>
-    </div>
+        <script>
+            document.getElementById("sortType").addEventListener("change", function () {
+                document.getElementById("filterForm").submit();
+            });
+        </script>
 </body>
 
 </html>
