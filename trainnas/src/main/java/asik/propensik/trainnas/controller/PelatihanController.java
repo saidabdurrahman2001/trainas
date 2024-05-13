@@ -1,39 +1,28 @@
 package asik.propensik.trainnas.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
 import asik.propensik.trainnas.dto.PelatihanMapper;
-import asik.propensik.trainnas.dto.request.CreatePelatihanRequestDTO;
 import asik.propensik.trainnas.dto.request.DaftarPelatihanDTO;
-import asik.propensik.trainnas.dto.request.UpdatePelatihanRequestDTO;
 import asik.propensik.trainnas.model.Pelatihan;
 import asik.propensik.trainnas.model.Pendaftaran;
 import asik.propensik.trainnas.model.UserModel;
 import asik.propensik.trainnas.service.PelatihanService;
 import asik.propensik.trainnas.service.PendaftaranService;
-import asik.propensik.trainnas.service.UserService;
 import asik.propensik.trainnas.service.UserServiceImpl;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.text.ParseException;
 
 @Controller
 public class PelatihanController {
@@ -51,7 +40,7 @@ public class PelatihanController {
 
     @RequestMapping("/")
     public String hello(Model model) {
-        List<UserModel> allUsers = userService.getAllUsers();
+        List<UserModel> allUsers = userService.getAllUser();
         List<Pelatihan> listAllPelatihan = pelatihanService.getAllPelatihan();
         List<Pelatihan> listPelatihan = pelatihanService.getAllApprovedPelatihan();
         System.out.println(listPelatihan);

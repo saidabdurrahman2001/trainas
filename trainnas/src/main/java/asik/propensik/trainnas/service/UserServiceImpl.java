@@ -1,9 +1,9 @@
 package asik.propensik.trainnas.service;
 
-import java.security.Security;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,6 @@ import asik.propensik.trainnas.model.UserModel;
 import asik.propensik.trainnas.repository.PelatihanTraineeDb;
 import asik.propensik.trainnas.repository.TestimoniDb;
 import asik.propensik.trainnas.repository.UserDb;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,18 +43,21 @@ public class UserServiceImpl implements UserService {
         return pelatihanTraineeDb.findAll();
     }
 
-    public List<UserModel> getAllUsers() {
+    public List<UserModel> getAllUser() {
         return userDb.findAll();
     }
 
-    // public UserModel getUserById(UUID id) {
-    // return userDb.findById(id)
-    // .orElseThrow(() -> new IllegalArgumentException("User not found with id " +
-    // id));
-    // }
+    public UserModel findByUsername(String username){
+        return userDb.findByUsername(username);
+    }
 
     public UserModel getUserByEmail(String email) {
         return userDb.findByEmail(email);
+    }
+
+    public void deleteUser(String username){
+        UserModel delUser = findByUsername(username);
+        userDb.delete(delUser);
     }
 
     // public void updateUser(Long id, String role) {

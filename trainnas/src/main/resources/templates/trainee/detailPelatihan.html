@@ -29,7 +29,7 @@
             <p class="card-text"><strong>Lokasi Pelaksanaan:</strong> <span th:text="${pelatihan.tempat}"></span></p>
             <p class="card-text"><strong>Narahubung:</strong> <span th:text="${pelatihan.narahubung}"></span></p>
             <a type="button" class="btn btn-md btn-primary" th:if="${pelatihan.statusApproval == 2}"
-               th:href="@{/pelatihan/daftar(id=${pelatihan.idPelatihan})}">Daftar</a>
+            th:href="@{/pelatihan/daftar(id=${pelatihan.idPelatihan})}">Daftar</a>
         </div>
     </div>
 </div>

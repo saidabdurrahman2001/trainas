@@ -29,18 +29,18 @@
     <nav th:replace="~{fragments/navbar :: navbar('user')}"></nav>
     <br><br><br>
     <div class="container">
-        <div class="text-center pt-5">
-            <h2>User Lists</h2>
-        </div>
-        <form action="/users/search-user" method="get" class="mb-3">
+        <div class="text-center font-poppins-bold pt-5" style="color: #02649c; font-weight: bolder;">
+            <h2>Data Semua User</h2>
+        </div>        
+        <!-- <form action="/users/search-user" method="get" class="mb-3">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Cari Nama" name="searchQuery">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">Cari</button>
                 </div>
             </div>
-        </form>
-        <form action="/users/filter-user" method="get" id="filterForm" class="mb-3">
+        </form> -->
+        <!-- <form action="/users/filter-user" method="get" id="filterForm" class="mb-3">
             <div class="filter-condition">
                 <span>Urutkan Berdasarkan Peran</span>
                 <select name="sortType" id="sortType">
@@ -66,7 +66,7 @@
                 </select>
 
             </div>
-        </form>
+        </form> -->
 
         <script>
             document.getElementById('sortType').addEventListener('change', function () {
@@ -78,37 +78,52 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Username</th>
                     <th>Nama</th>
-                    <th>Nomor HP</th>
-                    <th>Asal Sekolah</th>
                     <th>Peran</th>
-                    <th>Status Akun</th>
+                    <th>Email</th>
+                    <th>Asal Sekolah</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="user, iterationStatus : ${users}">
+                <tr th:each="user, iterationStatus : ${listUser}">
                     <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${user.username}"></td>
                     <td th:text="${user.name}"></td>
-                    <td th:text="${user.phoneNumber}"></td>
-                    <td th:text="${user.school}"></td>
-                    <td th:text="${user.role}"></td>
+                    <td th:text="${user.role.role}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.asalSekolah}"></td>
                     <td>
-                        <span th:if="${user.isActive}">Aktif</span>
-                        <span th:if="${not user.isActive}">Nonaktif</span>
+                        <a th:href="@{/profile/update/{username}(username=${user.username})}"
+                           class="btn btn-md btn-outline-warning btn-custom-size">Update</a>
+                        <!-- <a href="/user/list" onclick="nonaktifkanUser(event, '${user.username}')" class="btn btn-md btn-outline-danger btn-custom-size">Nonaktifkan</a> -->
                     </td>
-                    <td>
-                        <a type="button" class="btn btn-md btn-primary btn-custom-size"
-                            th:href="@{/users/detail(id=${user.idUser})}">Detail</a>
-                        <a type="button" class="btn btn-md btn-warning btn-custom-size"
-                            th:href="@{/users/user-update(id=${user.idUser})}">Update</a>
-                    </td>
-
                 </tr>
             </tbody>
 
         </table>
     </div>
+    <script>
+        function nonaktifkanUser(event, username) {
+            event.preventDefault(); // Mencegah link untuk berpindah ke halaman lain secara default
+    
+            // Buat sebuah form sementara
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/delete/user/' + username;
+    
+            // Tambahkan CSRF token jika diperlukan
+            // Gantikan 'csrfToken' dengan nama variabel CSRF token yang digunakan dalam aplikasi Anda
+            // form.innerHTML = '<input type="hidden" name="_csrf" value="' + csrfToken + '">';
+    
+            // Tempelkan form ke dalam body
+            document.body.appendChild(form);
+    
+            // Submit form
+            form.submit();
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha384-K5qT8V9QpF18ag+OzqYj0Aj4g/sDvWfQLbY1GiRtlzl0KRnADbPk2K5im/+9aaTl"
         crossorigin="anonymous"></script>

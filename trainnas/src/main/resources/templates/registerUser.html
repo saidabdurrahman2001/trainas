@@ -1,62 +1,159 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
-  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
-  <title>Form Add Pelatihan</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register TRAINNAS</title>
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #fff !important;
+            font-family: 'Roboto', sans-serif;
+        }
+        .user_card {
+            width: 350px;
+            margin-top: auto;
+            margin-bottom: auto;
+            background: #074173;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+        .form_container {
+            margin-top: 20px;
+        }
+        #form-title {
+            color: #fff;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        #form-title-2 {
+            color: #fff;
+            font-weight: 700;
+            font-size: 25px;
+        }
+        .register_btn {
+            width: 100%;
+            background: #03AED2 !important;
+            color: white !important;
+            font-weight: 700;
+            margin-bottom: 50px;
+        }
+        .register_btn:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+        .input-group-text {
+            background: #03AED2 !important;
+            color: white !important;
+            border: 0 !important;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+        }
+        .input_user, .input_pass:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+        #messages {
+            background-color: grey;
+            color: #fff;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
-  <nav th:replace="~{fragments/navbar :: navbar('Pengaturan')}"></nav>
-  <br><br><br>
-  <div class="container">
-    <div class="card m-4 p-4">
-      <div class="card-body">
-        <div class="justify-content-center">
-          <h2 class="text-center">Tambah User</h2>
-          <br>
-          <form th:action="@{/user/add}" th:object="${user}" method="POST">
-            Nama User: <br>
-            <input class="form-control" type="text" th:field="*{name}" required />
-            </br>
-
-            Username User: <br>
-            <input class="form-control" type="text" th:field="*{username}" required />
-            </br>
-
-            Email User: <br>
-            <input class="form-control" type="text" th:field="*{email}" required />
-            </br>
-
-            Asal Sekolah: <br>
-            <input class="form-control" type="text" th:field="*{asalSekolah}" required />
-            </br>
-
-            Jenis Pelatihan: <br>
-            <select th:field="*{role.id}" class="form-control gap-2">
-              <div th:each="roleExisting : ${listRole}">
-                <option th:value="${roleExisting.id}" th:text="${roleExisting.role}"></option>
-              </div>
-            </select>
-
-            Password: <br>
-            <input class="form-control" type="text" th:field="*{password}" required />
-            </br>
-
-            <br>
-            <button class="btn btn-primary" type="submit" onclick="return confirmRegistration()">Submit</button>
-          </form>
+  <nav th:replace="~{fragments/navbar :: navbar('pengaturan')}"></nav>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <h3 id="form-title">TAMBAH USER</h3>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h3 id="form-title-2">TRAINAS</h3>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form th:action="@{/user/add}" th:object="${user}" method="POST">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text"  placeholder="Name..." class="form-control input_user" th:field="*{name}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" th:field="*{username}" placeholder="Username..." class="form-control input_user">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" th:field="*{email}" placeholder="Email..." class="form-control input_email">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-home"></i></span>
+                            </div>
+                            <input type="text" th:field="*{asalSekolah}" placeholder="Address..." class="form-control input_user">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-list"></i></span>
+                            </div>
+                            <select th:field="*{role.id}" class="custom-select">
+                                <div th:each="roleExisting : ${listRole}">
+                                <option th:value="${roleExisting.id}" th:text="${roleExisting.role}"></option>
+                                </div>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="text" th:field="*{password}" placeholder="Password..." class="form-control input_user">
+                        </div>
+                        <div class="d-flex justify-content-center mt-3 register_container">
+                            <input class="btn register_btn" type="submit" value="Register">
+                        </div>
+                        <!-- <div class="d-flex justify-content-center mt-3 register_container">
+                        <a class="btn register_btn" href="/">Back</a>
+                        </div> -->
+                    </form>
+                </div>
+				        <!-- <div class="mt-4">
+                    <div class="d-flex justify-content-center links">
+                        <h6 style="color: #E5E5E5;">Already have an account?</h6>
+                        <a  href="/login" class="ml-2" style="color:aqua;">Login Here</a>
+                    </div>
+                </div> -->
+            </div>
         </div>
-      </div>
     </div>
+<<<<<<< HEAD
+    <script>
+        function confirmRegistration() {
+          return confirm("Data User sudah benar?");
+        }
+    </script>
+</body>
+</html>
+=======
   </div>
   <script>
     function confirmRegistration() {
@@ -67,3 +164,4 @@
 </body>
 
 </html>
+>>>>>>> 249f4941ee566b9c386da5c9a02da6feedc1a77a
