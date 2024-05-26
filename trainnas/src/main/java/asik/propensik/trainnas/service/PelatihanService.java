@@ -100,6 +100,10 @@ public class PelatihanService {
         return pelatihanDb.findByStatusApprovalIn(Arrays.asList(2, 5));
     }
 
+    public List<Pelatihan> getPelatihanBerdasarkanStatus(int status) {
+        return pelatihanDb.findByStatusApproval(status);
+    }
+
     public List<Pelatihan> searchApprovedPelatihanByTitle(String searchQuery) {
         System.out.println("masuk ke service pelatihan");
         System.out.println(searchQuery);

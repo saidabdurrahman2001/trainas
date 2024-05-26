@@ -121,11 +121,26 @@
                 ['Gernastataba', gernastatabaCount]
             ]);
 
+            // var options = {
+            //     title: 'Perbandingan Pelatihan Gernastastaka vs Gernastataba yang Diikuti',
+            //     bars: "vertical"
+            // };
             var options = {
-                title: 'Perbandingan Pelatihan Gernastastaka vs Gernastataba yang Diikuti'
+                title: 'Perbandingan Pelatihan Gernastastaka vs Gernastataba yang Diikuti',
+                hAxis: {
+                    title: 'Jumlah'
+                },
+                vAxis: {
+                    title: 'Tipe Pelatihan'
+                },
+                bars: 'vertical' // memastikan chart batang menjadi vertikal
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('perbandinganPelatihanChart'));
+            // var chart = new google.visualization.PieChart(document.getElementById('perbandinganPelatihanChart'));
+
+            // chart.draw(data, options);
+
+            var chart = new google.visualization.BarChart(document.getElementById('perbandinganPelatihanChart'));
 
             chart.draw(data, options);
         }
@@ -375,6 +390,22 @@
             <h2>Training History</h2>
         </div>
 
+        <!-- Filter untuk tipe pelatihan -->
+        <form action="/dashboard/filterPelatihanTrainer" method="get" id="filterForm">
+            <div class="filter-condition"
+                style="border-radius: 3.0rem; background-color: #f8f9fa; padding: 10px; display: inline-block;">
+                <span style="font-weight: bold; color: #333;"><i class="fas fa-list-alt"
+                        style="margin-right: 5px;"></i>Kategori
+                    Pelatihan</span>
+                <select name="sortType" id="sortType"
+                    style="margin-left: 10px; border: 1px solid #ced4da; border-radius: 5px; padding: 5px;">
+                    <option value="All">Semua</option>
+                    <option value="Gernastastaka">Gernastastaka</option>
+                    <option value="Gernastastaba">Gernastastaba</option>
+                </select>
+            </div>
+        </form>
+
         <table class="table table-striped mt-4" id="tablePelatihan">
             <thead>
                 <tr>
@@ -413,6 +444,14 @@
                 "lengthMenu": [5, 10, 20]
             });
         });
+
+
+        document.getElementById("sortType").addEventListener("change", function () {
+            document.getElementById("filterForm").submit();
+        });
+
+
+
 
     </script>
 

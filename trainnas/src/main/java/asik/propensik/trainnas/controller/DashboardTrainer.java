@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import asik.propensik.trainnas.model.Pelatihan;
 import asik.propensik.trainnas.model.Testimoni;
@@ -41,6 +42,39 @@ public class DashboardTrainer {
     @Autowired
     private PendaftaranService pendaftaranService;
 
+    @GetMapping("filterPelatihanTrainer")
+    public String filterPelatihanTrainer(@RequestParam("sortType") String sortType, Model model) {
+        System.out.println("masuk filter di dashboard");
+        if ("All".equals(sortType)) {
+            List<Pelatihan> listPelatihan = pelatihanService.getAllPelatihan();
+            model.addAttribute("pelatihanList", listPelatihan);
+        } else if ("Gernastastaka".equals(sortType)) {
+            List<Pelatihan> listPelatihan = pelatihanService.getTakaPelatihanTrainer();
+            model.addAttribute("pelatihanList", listPelatihan);
+        } else if ("Gernastastaba".equals(sortType)) {
+            List<Pelatihan> listPelatihan = pelatihanService.getTabaPelatihanTrainer();
+            model.addAttribute("pelatihanList", listPelatihan);
+        }
+        return "dashboard-trainer";
+    }
+
+    // @GetMapping("/pelatihan/filterPelatihanTrainer")
+    // public String filterPelatihanTrainer(@RequestParam("sortType") String
+    // sortType, Model model) {
+    // System.out.println("masuk filter");
+    // if ("All".equals(sortType)) {
+    // List<Pelatihan> listPelatihan = pelatihanService.getAllPelatihan();
+    // model.addAttribute("listPelatihan", listPelatihan);
+    // } else if ("Gernastastaka".equals(sortType)) {
+    // List<Pelatihan> listPelatihan = pelatihanService.getTakaPelatihanTrainer();
+    // model.addAttribute("listPelatihan", listPelatihan);
+    // } else if ("Gernastastaba".equals(sortType)) {
+    // List<Pelatihan> listPelatihan = pelatihanService.getTabaPelatihanTrainer();
+    // model.addAttribute("listPelatihan", listPelatihan);
+    // }
+    // return "trainer/viewall-pelatihan";
+    // }
+
     @GetMapping("/trainee")
     public String traineeDashboard(Model model) {
         UserModel user = userService.yangSedangLogin();
@@ -54,7 +88,6 @@ public class DashboardTrainer {
         List<Testimoni> testimoniList = testimoniService.findByUser(user);
         model.addAttribute("listTestimoni", testimoniList);
 
-
         return "dashboard-trainee";
     }
 
@@ -65,8 +98,6 @@ public class DashboardTrainer {
         model.addAttribute("testimoniList", testimoniList);
         return "testimoni-list";
     }
-
-    
 
     @GetMapping("/trainer")
     public String trainerDashboard(Model model) {

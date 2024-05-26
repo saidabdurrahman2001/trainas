@@ -532,7 +532,7 @@ public class PelatihanController {
 
     @GetMapping("/pelatihan/filterPelatihanTrainer")
     public String filterPelatihanTrainer(@RequestParam("sortType") String sortType, Model model) {
-        System.out.println("masuk filter");
+        System.out.println("masuk filter dashboard");
         if ("All".equals(sortType)) {
             List<Pelatihan> listPelatihan = pelatihanService.getAllPelatihan();
             model.addAttribute("listPelatihan", listPelatihan);

@@ -125,6 +125,18 @@
                         <a type="button" class="btn btn-md btn-primary"
                             th:href="@{/silabus/download/{id}(id=${silabus.idSilabus})}" target="_blank"
                             style="background-color:  #087988;">Download</a>
+                        <a type="button" class="btn btn-md btn-warning"
+                            th:href="@{/silabus/update(id=${silabus.idSilabus})}"
+                            style="margin-left: 10px; background-color: #ffc107;"
+                            sec:authorize="hasAnyAuthority('trainer', 'admin')">Perbarui</a>
+                        <!-- Tombol hapus -->
+                        <form th:action="@{/silabus/delete(id=${silabus.idSilabus})}" method="post"
+                            style="display: inline;"
+                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus silabus ini?');">
+                            <input type="hidden" name="id" th:value="${silabus.idSilabus}" />
+                            <button type="submit" class="btn btn-md btn-danger" style="margin-top: 10px; width: 215px;"
+                                sec:authorize="hasAnyAuthority('trainer', 'admin')">Hapus</button>
+                        </form>
                         <!-- Info download -->
                         <!-- <p class="download-info">Telah diunduh <span th:text="${silabus.downloadCount}"></span> kali</p> -->
                     </div>

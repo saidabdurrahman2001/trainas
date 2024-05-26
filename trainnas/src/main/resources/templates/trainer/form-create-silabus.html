@@ -30,7 +30,7 @@
                         enctype="multipart/form-data">
 
                         Nama Bahan Ajar: <br>
-                        <input class="form-control" type="text" th:field="*{deskripsi}" required />
+                        <input class="form-control" type="text" th:field="*{deskripsi}" required name="name" id="name">
                         </br>
 
 
@@ -42,12 +42,12 @@
                         </select>
                         <br>
                         File: <br>
-                        <input type="file" name="file" required />
+                        <input type="file" name="file" id="file" required />
                         <br>
 
                         <br>
                         <button class="btn btn-primary" type="submit" onclick="return confirmRegistration()"
-                            style="background-color: #087988;">Submit</button>
+                            style="background-color: #087988;" id="postButton">Simpan</button>
                         <!-- <a class="btn btn-primary" href="/">Home</a> -->
                     </form>
                 </div>
@@ -57,7 +57,43 @@
 
     <script>
         function confirmRegistration() {
-            return confirm("Apakah Anda yakin ingin menambahkan bahan ajar dengan informasi yang telah diisi?");
+            let name = document.getElementById("name");
+            let tingkatan = document.getElementById("tingkatan");
+            let file = document.getElementById("file");
+            let postButton = document.getElementById("postButton");
+            postButton.disabled = true;
+
+            name.addEventListener("input", () => { // Also using `input` instead of `change`
+                if (name.value.length > 0) {
+                    document.getElementById("postButton").disabled = false;
+                } else {
+                    document.getElementById("postButton").disabled = true;
+                }
+            });
+
+            tingkatan.addEventListener("input", () => { // Also using `input` instead of `change`
+                if (tingkatan.value.length > 0) {
+                    document.getElementById("postButton").disabled = false;
+                } else {
+                    document.getElementById("postButton").disabled = true;
+                }
+            });
+
+            file.addEventListener("input", () => { // Also using `input` instead of `change`
+                if (file.value.length > 0) {
+                    document.getElementById("postButton").disabled = false;
+                } else {
+                    document.getElementById("postButton").disabled = true;
+                }
+            });
+
+            if (name.value.length == 0 || tingkatan.value.length == 0 || file.value.length == 0) {
+                postButton = true;
+            } else {
+                postButton.disabled = false;
+            }
+
+            // return confirm("Apakah Anda yakin ingin menambahkan bahan ajar dengan informasi yang telah diisi?");
         }
     </script>
 

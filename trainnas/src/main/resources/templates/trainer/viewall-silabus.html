@@ -105,7 +105,7 @@
             </div>
         </form>
 
-        <div class="container">
+        <!-- <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
                 <div th:if="${!listSilabus.isEmpty()}" th:each="index : ${#numbers.sequence(0, listSilabus.size() - 1)}"
                     class="col">
@@ -132,7 +132,32 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+        <table class="table table-striped mt-4" id="tablePelatihan">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Bahan Ajar</th>
+                    <th>Tingkatan</th>
+                    <th>Detail</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="silabus, iterationStatus : ${listSilabus}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${silabus.deskripsi}"></td>
+                    <td th:text="${silabus.tingkatan}"></td>
+                    <td>
+                        <a type="button" class="btn btn-md btn-available btn-custom-size"
+                            th:href="@{/silabus/detail(id=${silabus.idSilabus})}"
+                            style="background-color: #b0f218;">Detail</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
         <script>
             document.getElementById("sortType").addEventListener("change", function () {
                 document.getElementById("filterForm").submit();

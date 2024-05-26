@@ -58,6 +58,7 @@
                     <th>Waktu Buat</th>
                     <th>Status</th>
                     <th>Action</th>
+                    <th>Approval</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,18 +83,6 @@
                     <td>
                         <a type="button" class="btn btn-md btn-available btn-custom-size"
                             th:href="@{/pelatihan/detail(id=${pelatihan.idPelatihan})}">Detail</a>
-
-                        <div class="btn-group" th:if="${pelatihan.statusApproval == 1}">
-                            <!-- Form untuk Approve -->
-                            <form th:action="@{/pelatihan/approve(id=${pelatihan.idPelatihan})}" method="post">
-                                <input type="hidden" name="idPelatihan" th:value="${pelatihan.idPelatihan}">
-                                <input type="submit" value="Approve" class="btn btn-success">
-                            </form>
-
-                            <!-- Trigger Modal untuk Reject -->
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                th:attr="data-bs-target='#rejectModal'+${pelatihan.idPelatihan}">Reject</button>
-                        </div>
                         <div class="btn-group" th:if="${pelatihan.statusApproval == 2}">
                             <!-- Form untuk Done -->
                             <form th:action="@{/pelatihan/done(id=${pelatihan.idPelatihan})}" method="post">
@@ -141,6 +130,19 @@
                             </div>
                         </div>
                     </td>
+                    <td>
+                        <div class="btn-group" th:if="${pelatihan.statusApproval == 1}">
+                            <!-- Form untuk Approve -->
+                            <form th:action="@{/pelatihan/approve(id=${pelatihan.idPelatihan})}" method="post">
+                                <input type="hidden" name="idPelatihan" th:value="${pelatihan.idPelatihan}">
+                                <input type="submit" value="Approve" class="btn btn-success">
+                            </form>
+
+                            <!-- Trigger Modal untuk Reject -->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#rejectModal'+${pelatihan.idPelatihan}">Reject</button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -153,7 +155,7 @@
             $('#tablePelatihan').DataTable({
                 "lengthMenu": [5, 10, 20],
                 "columnDefs": [
-                    { targets: [5], sortable: false },
+                    { targets: [6], sortable: false },
                 ]
             });
         });

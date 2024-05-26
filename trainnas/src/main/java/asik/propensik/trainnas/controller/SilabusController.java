@@ -198,7 +198,7 @@ public class SilabusController {
         return "trainer/success-update-silabus";
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public String deleteSilabus(@RequestParam("id") Long id) {
         silabusService.deleteSilabus(id);
         return "trainer/success-delete-silabus";
